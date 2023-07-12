@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import helpers.Console;
+import repositories.AdminRepository;
 
 /**
  * Classe de construction du menu administrateur.
@@ -31,15 +32,14 @@ public class AdminMenu {
 		username = Console.inString("Nom d'usager:");
 		ID = Console.inInt("ID:");
 		
-		// TODO: Valider les informations de connexion en lisant le contenu du fichier JSON approprié
-		if (username.equals("admin") && ID == 0) {
+		if (AdminRepository.getInstance().isValid(username, ID)) {
 			return true;
+		} else {
+			System.out.println();
+			System.out.println("***Informations de connexion érronées***");
+			System.out.println();
+			return false;
 		}
-		
-		System.out.println();
-		System.out.println("***Informations de connexion érronées***");
-		System.out.println();
-		return false;
 	}
 	
 	/**
@@ -49,18 +49,21 @@ public class AdminMenu {
 		int selectedOption;
 	    System.out.println("| Choisir une action |");
 	    System.out.println("1. Modifier NPE");
-	    System.out.println("2. Gérer les projets");
-	    System.out.println("3. Déconnexion");
+	    System.out.println("2. Modifier mon ID");
+	    System.out.println("3. Gérer les projets");
+	    System.out.println("4. Déconnexion");
 
 	    selectedOption = Console.inInt("Action:");
 
 	    switch (selectedOption) {
 		    case 1:
 		    	System.out.println("Option 1 sélectionnée");
-		    	break;
 		    case 2:
-		    	projectsMenu();
+		    	System.out.println("Option 2 sélectionnée");
+		    	break;
 		    case 3:
+		    	projectsMenu();
+		    case 4:
 		    	LoginMenu.mainMenu();
 		    	break;
 	    }

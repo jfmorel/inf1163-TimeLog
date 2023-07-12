@@ -12,6 +12,6 @@ public class TimeLogRunner {
 	 * Lance le programme de gestion de projet TimeLog
 	 */
 	public static void main(String[] args) {
-	    LoginMenu.mainMenu();
+		LoginMenu.mainMenu();
 	}
 }
