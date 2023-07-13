@@ -2,7 +2,7 @@ package repositories;
 
 public class Admin {
 	private String username;
-	private long id;
+	private String id;
 	
 	/**
 	 * Construit l'objet de type Admin.
@@ -10,7 +10,7 @@ public class Admin {
 	 * @param username Le nom d'usager de l'administateur.
 	 * @param id Le numéro d'identification de l'administateur.
 	 */
-	public Admin(String username, long id) {
+	public Admin(String username, String id) {
 		this.username = username;
 		this.id = id;
 	}
@@ -29,11 +29,11 @@ public class Admin {
 	 * 
 	 * @return username Le numéro d'identification de l'administateur.
 	 */	
-	public long getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 }

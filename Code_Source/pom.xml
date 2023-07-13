@@ -13,6 +13,19 @@
           <release>15</release>
         </configuration>
       </plugin>
+      <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>TimeLogRunner</mainClass>
+          </manifest>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+    </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -20,6 +33,11 @@
   		<groupId>com.googlecode.json-simple</groupId>
   		<artifactId>json-simple</artifactId>
   		<version>1.1.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>commons-io</groupId>
+  		<artifactId>commons-io</artifactId>
+  		<version>2.6</version>
   	</dependency>
   </dependencies>
 </project>

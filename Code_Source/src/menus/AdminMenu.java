@@ -25,12 +25,12 @@ public class AdminMenu {
 	 */
 	public static boolean validateLogin() {
 		String username;
-		int ID;
+		String ID;
 		
 		System.out.println("| Veuillez vous identifier |");
 		
 		username = Console.inString("Nom d'usager:");
-		ID = Console.inInt("ID:");
+		ID = Console.inString("ID:");
 		
 		if (AdminRepository.getInstance().isValid(username, ID)) {
 			return true;

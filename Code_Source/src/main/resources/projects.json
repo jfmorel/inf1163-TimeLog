@@ -1,0 +1,98 @@
+[
+  {
+    "id": "1",
+    "name": "projet1",
+    "startDate": "2023-01-01",
+    "endDate": "2023-12-31",
+    "activities": [
+      {
+        "name": "design1",
+        "budget": 25
+      },
+      {
+        "name": "design2",
+        "budget": 20
+      },
+      {
+        "name": "implementation",
+        "budget": 70
+      },
+      {
+        "name": "test",
+        "budget": 10
+      },
+      {
+        "name": "deploiement",
+        "budget": 5
+      }
+    ],
+    "employees": [ 
+      "1",
+      "3"
+    ]
+  },
+  {
+    "id": "2",
+    "name": "projet2",
+    "startDate": "2023-02-20",
+    "endDate": "2023-11-01",
+    "activities": [
+      {
+        "name": "design1",
+        "budget": 25
+      },
+      {
+        "name": "design2",
+        "budget": 20
+      },
+      {
+        "name": "implementation",
+        "budget": 70
+      },
+      {
+        "name": "test",
+        "budget": 10
+      },
+      {
+        "name": "deploiement",
+        "budget": 5
+      }
+    ],
+    "employees": [ 
+      "1",
+      "2"
+    ]
+  },
+  {
+    "id": "3",
+    "name": "projet3",
+    "startDate": "2023-02-20",
+    "endDate": "2023-12-31",
+    "activities": [
+      {
+        "name": "design1",
+        "budget": 25
+      },
+      {
+        "name": "design2",
+        "budget": 20
+      },
+      {
+        "name": "implementation",
+        "budget": 70
+      },
+      {
+        "name": "test",
+        "budget": 10
+      },
+      {
+        "name": "deploiement",
+        "budget": 5
+      }
+    ],
+    "employees": [ 
+      "2",
+      "3"
+    ]
+  }
+]

@@ -33,12 +33,12 @@ public class AdminRepository extends Repository {
     
     private void addAdminToRepository(JSONObject admin)  {         
         String username = (String) admin.get("username");             
-        long id = (long) admin.get("id");
+        String id = (String) admin.get("id");
         admins.add(new Admin(username, id));
     }
     
-    public boolean isValid(String username, int id) {
-    	Predicate<Admin> filter = admin -> username.equals(admin.getUsername()) && id == admin.getId();
+    public boolean isValid(String username, String id) {
+    	Predicate<Admin> filter = admin -> username.equals(admin.getUsername()) && id.equals(admin.getId());
     	if (admins.stream().anyMatch(filter)) {
     		return true;
     	} else {

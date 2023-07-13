@@ -10,7 +10,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Repository {
-	protected String filePrefix = System.getProperty("user.home").concat(System.getProperty("file.separator")).concat(".timeLog").concat(System.getProperty("file.separator")).concat("json").concat(System.getProperty("file.separator"));
+	protected String filePrefix = System.getProperty("user.home").concat(System.getProperty("file.separator")).concat(".timeLog").concat(System.getProperty("file.separator")).concat(System.getProperty("file.separator"));
 	protected Object readDataSource(String fileName) {
 		Object jsonObj = new Object();
 		// Instancie un objet de type JSON parser
