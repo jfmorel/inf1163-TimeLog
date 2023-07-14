@@ -4,6 +4,7 @@ import helpers.Console;
 
 /**
  * Classe de construction du menu de connexion.
+ * @author Généviève Abikou
  * @author William McAllister
  * @author Jean-Francois Morel
  * @version 1.0

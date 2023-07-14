@@ -6,6 +6,13 @@ import java.util.function.Predicate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+/**
+ * Classe représentant un dépôt de données de type Admin.
+ * @author Généviève Abikou
+ * @author William McAllister
+ * @author Jean-Francois Morel
+ * @version 1.0
+ */
 public class AdminRepository extends Repository {
 	private static AdminRepository INSTANCE;
 	private String fileName = super.filePrefix.concat("admins.json");

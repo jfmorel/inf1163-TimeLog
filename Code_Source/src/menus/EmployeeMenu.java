@@ -1,9 +1,11 @@
 package menus;
 
 import helpers.Console;
+import repositories.EmployeeRepository;
 
 /**
  * Classe de construction du menu employé.
+ * @author Généviève Abikou
  * @author William McAllister
  * @author Jean-Francois Morel
  * @version 1.0
@@ -16,22 +18,21 @@ public class EmployeeMenu {
 	 */
 	public static boolean validateLogin() {
 		String username;
-		int ID;
+		String ID;
 		
 		System.out.println("| Veuillez vous identifier |");
 		
 		username = Console.inString("Nom d'usager:");
-		ID = Console.inInt("ID:");
+		ID = Console.inString("ID:");
 		
-		// TODO: Valider les informations de connexion en lisant le contenu du fichier JSON approprié
-		if (username.equals("employe1") && ID == 1) {
+		if (EmployeeRepository.getInstance().isValid(username, ID)) {
 			return true;
+		} else {
+			System.out.println();
+			System.out.println("***Informations de connexion érronées***");
+			System.out.println();
+			return false;
 		}
-		
-		System.out.println();
-		System.out.println("***Informations de connexion érronées***");
-		System.out.println();
-		return false;
 	}
 	
 	/**

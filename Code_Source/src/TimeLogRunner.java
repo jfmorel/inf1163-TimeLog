@@ -10,6 +10,7 @@ import menus.LoginMenu;
 
 /**
  * Classe d'initialisation du programme console TimeLog.
+ * @author Généviève Abikou
  * @author William McAllister
  * @author Jean-Francois Morel
  * @version 1.0

@@ -9,6 +9,13 @@ import org.json.simple.JSONAware;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * Classe représentant un dépôt de données générique.
+ * @author Généviève Abikou
+ * @author William McAllister
+ * @author Jean-Francois Morel
+ * @version 1.0
+ */
 public class Repository {
 	protected String filePrefix = System.getProperty("user.home").concat(System.getProperty("file.separator")).concat(".timeLog").concat(System.getProperty("file.separator")).concat(System.getProperty("file.separator"));
 	protected Object readDataSource(String fileName) {

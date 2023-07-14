@@ -6,6 +6,7 @@ import java.io.IOException;
  * Classe de méthodes auxiliaire pour manipulation des entrées console.
  * Inspiré de la classe Keyin: http://www.java2s.com/Tutorials/Java/IO_How_to/Console/Create_a_Console_menu.htm
  * 
+ * @author Généviève Abikou
  * @author William McAllister
  * @author Jean-Francois Morel
  * @version 1.0

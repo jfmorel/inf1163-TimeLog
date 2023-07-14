@@ -8,6 +8,7 @@ import repositories.AdminRepository;
 
 /**
  * Classe de construction du menu administrateur.
+ * @author Généviève Abikou
  * @author William McAllister
  * @author Jean-Francois Morel
  * @version 1.0
