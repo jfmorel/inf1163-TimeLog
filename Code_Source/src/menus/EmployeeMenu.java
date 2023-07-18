@@ -12,18 +12,15 @@ import repositories.EmployeeRepository;
  */
 public class EmployeeMenu {
 	/**
-	 * Demande à la console le nom d'usager et le ID à de l'employé
+	 * Demande à la console le nom d'usager et le ID de l'employé
 	 * 
 	 * @return booléen indiquant si l'employé s'est connecté avec succès ou non
 	 */
-	public static boolean validateLogin() {
-		String username;
-		String ID;
-		
+	public static boolean validateLogin() {		
 		System.out.println("| Veuillez vous identifier |");
 		
-		username = Console.inString("Nom d'usager:");
-		ID = Console.inString("ID:");
+		String username = Console.inString("Nom d'usager:");
+		String ID = Console.inString("ID:");
 		
 		if (EmployeeRepository.getInstance().isValid(username, ID)) {
 			return true;
@@ -31,6 +28,7 @@ public class EmployeeMenu {
 			System.out.println();
 			System.out.println("***Informations de connexion érronées***");
 			System.out.println();
+			
 			return false;
 		}
 	}

@@ -23,7 +23,7 @@ public class AdminRepository extends Repository {
     }
     
     public static AdminRepository getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = new AdminRepository();
         }
         

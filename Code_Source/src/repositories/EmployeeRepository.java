@@ -24,7 +24,7 @@ public class EmployeeRepository extends Repository {
     }
     
     public static EmployeeRepository getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = new EmployeeRepository();
         }
         
