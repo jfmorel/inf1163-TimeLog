@@ -10,7 +10,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- * Classe représentant un dépôt de données de type Employee.
+ * Classe singleton représentant un dépôt de données de type Employee.
  * @author Généviève Abikou
  * @author William McAllister
  * @author Jean-Francois Morel
@@ -33,14 +33,12 @@ public class EmployeeRepository extends Repository {
         return INSTANCE;
     }
     
-    @SuppressWarnings("unchecked")
-    private void readDataSource() {         
-        JSONArray employeeList = (JSONArray) super.readDataSource(fileName);
-        
-        // Itération dans le tableau d'employés
-        employeeList.forEach(employee -> addEmployeeToRepository((JSONObject) employee));
-    }
     
+    /**
+	 * Ajoute l'objet JSON représentant un employé au dépôt de données.
+	 * 
+	 * @param employee L'objet JSON représentant un employé.
+	 */
     @SuppressWarnings("unchecked")
 	private void addEmployeeToRepository(JSONObject employee)  {         
         String username = (String) employee.get("username");             
@@ -62,6 +60,13 @@ public class EmployeeRepository extends Repository {
         rates.add(new EmployeeRate(date, rate));
     }
     
+    /**
+	 * Vérifie si la combinaison username et id se trouve dans le dépot de données.
+	 * 
+	 * @param username Le nom d'usager de l'employé.
+	 * @param id Le numéro d'identification de l'employé.
+	 * @return booléen indiquant si la combinaison username et id se trouve dans le dépot de données.
+	 */
     public boolean isValid(String username, String id) {
     	Predicate<Employee> filter = employee -> username.equals(employee.getUsername()) && id.equals(employee.getId());
     	if (employees.stream().anyMatch(filter)) {
@@ -70,7 +75,23 @@ public class EmployeeRepository extends Repository {
     		return false;
     	}
     }
+    
+    /**
+	 * Lit le contenu du fichier JSON contenant la liste des employés et construit les objets.
+	 * 
+	 */
+    @SuppressWarnings("unchecked")
+    private void readDataSource() {         
+        JSONArray employeeList = (JSONArray) super.readDataSource(fileName);
+        
+        // Itération dans le tableau d'employés
+        employeeList.forEach(employee -> addEmployeeToRepository((JSONObject) employee));
+    }
 
+    /**
+	 * Écrit le contenu des objets du dépot de données dans le fichier JSON associé pour persistence.
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	public void writeDataSource() {
 		JSONArray employeeList = new JSONArray();

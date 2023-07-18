@@ -7,7 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- * Classe représentant un dépôt de données de type Admin.
+ * Classe singleton représentant un dépôt de données de type Admin.
  * @author Généviève Abikou
  * @author William McAllister
  * @author Jean-Francois Morel
@@ -30,20 +30,24 @@ public class AdminRepository extends Repository {
         return INSTANCE;
     }
     
-    @SuppressWarnings("unchecked")
-    private void readDataSource() {         
-        JSONArray adminList = (JSONArray) super.readDataSource(fileName);
-        
-        // Itération dans le tableau d'administateurs
-        adminList.forEach(admin -> addAdminToRepository((JSONObject) admin));
-    }
-    
+    /**
+	 * Ajoute l'objet JSON représentant un administrateur au dépôt de données.
+	 * 
+	 * @param admin L'objet JSON représentant un administrateur.
+	 */
     private void addAdminToRepository(JSONObject admin)  {         
         String username = (String) admin.get("username");             
         String id = (String) admin.get("id");
         admins.add(new Admin(username, id));
     }
     
+    /**
+	 * Vérifie si la combinaison username et id se trouve dans le dépot de données.
+	 * 
+	 * @param username Le nom d'usager de l'administrateur.
+	 * @param id Le numéro d'identification de l'administrateur.
+	 * @return booléen indiquant si la combinaison username et id se trouve dans le dépot de données.
+	 */
     public boolean isValid(String username, String id) {
     	Predicate<Admin> filter = admin -> username.equals(admin.getUsername()) && id.equals(admin.getId());
     	if (admins.stream().anyMatch(filter)) {
@@ -52,12 +56,28 @@ public class AdminRepository extends Repository {
     		return false;
     	}
     }
+    
+    /**
+	 * Lit le contenu du fichier JSON contenant la liste des administrateurs et construit les objets.
+	 * 
+	 */
+    @SuppressWarnings("unchecked")
+    private void readDataSource() {         
+        JSONArray adminList = (JSONArray) super.readDataSource(fileName);
+        
+        // Itération dans le tableau d'administateurs
+        adminList.forEach(admin -> addAdminToRepository((JSONObject) admin));
+    }
 
+    /**
+	 * Écrit le contenu des objets du dépot de données dans le fichier JSON associé pour persistence.
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	public void writeDataSource() {
 		JSONArray adminList = new JSONArray();
 		for (Admin admin : admins) {
-			JSONObject adminObject = new JSONObject(); 
+			JSONObject adminObject = new JSONObject();
 			adminObject.put("username", admin.getUsername());
 			adminObject.put("id", admin.getId());
 			
