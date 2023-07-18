@@ -1,6 +1,8 @@
 package repositories;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
@@ -54,8 +56,7 @@ public class EmployeeRepository extends Repository {
     }
     
     private void addEmployeeRateToEmployee(JSONObject employeeRate, ArrayList<EmployeeRate> rates)  {
-    	// Date date = new SimpleDateFormat("yyyy-MM-dd").parse((String) employeeRate.get("date"));
-    	LocalDate date = LocalDate.parse((String) employeeRate.get("date"));
+    	LocalDate date = Instant.ofEpochSecond((long) employeeRate.get("date")).atOffset(ZoneOffset.UTC).toLocalDate();
         double rate = (double) employeeRate.get("rate");
         
         rates.add(new EmployeeRate(date, rate));
