@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import helpers.Console;
+import repositories.Admin;
 import repositories.AdminRepository;
 import repositories.Config;
 import repositories.ConfigRepository;
@@ -16,6 +17,7 @@ import repositories.ConfigRepository;
  * @version 1.0
  */
 public class AdminMenu {
+	static String currentAdminId;
 	enum ProjectOperation {
 		EDIT,
 		DELETE
@@ -33,6 +35,7 @@ public class AdminMenu {
 		String ID = Console.inString("ID:");
 		
 		if (AdminRepository.getInstance().isValid(username, ID)) {
+			currentAdminId = ID;
 			return true;
 		} else {
 			System.out.println();
@@ -61,6 +64,24 @@ public class AdminMenu {
 	}
 	
 	/**
+	 * Demande à la console la valeur du nouvel ID de l'administateur
+	 * 
+	 */
+	public static void requestID() {
+		System.out.println("| Veuillez entrer la nouvelle valeur de votre ID |");
+
+		String id = Console.inString("ID:");
+		Admin admin = AdminRepository.getInstance().getAdminById(currentAdminId);
+		currentAdminId = id;
+		admin.setId(id);
+		AdminRepository.getInstance().writeDataSource();
+		
+		System.out.println();
+		System.out.println("***ID modifié avec succès***");
+		System.out.println();
+	}
+	
+	/**
 	 * Affiche le menu principal du rôle Administrateur
 	 */
 	public static void mainMenu() {
@@ -78,7 +99,7 @@ public class AdminMenu {
 		    	requestNPE();
 		    	break;
 		    case 2:
-		    	System.out.println("Option 2 sélectionnée");
+		    	requestID();
 		    	break;
 		    case 3:
 		    	projectsMenu();

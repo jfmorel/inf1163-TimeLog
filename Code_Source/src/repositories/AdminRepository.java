@@ -31,6 +31,17 @@ public class AdminRepository extends Repository {
     }
     
     /**
+	 * Retourne l'objet Admin qui possède l'identifiant passé en paramètre.
+	 * 
+	 * @param ID L'identifiant de l'administrateur.
+	 */
+    public Admin getAdminById(String id)  {         
+    	Predicate<Admin> filter = admin -> id.equals(admin.getId());
+    	
+    	return admins.stream().filter(filter).findFirst().orElse(null);
+    }
+    
+    /**
 	 * Ajoute l'objet JSON représentant un administrateur au dépôt de données.
 	 * 
 	 * @param admin L'objet JSON représentant un administrateur.
