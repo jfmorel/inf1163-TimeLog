@@ -33,6 +33,16 @@ public class EmployeeRepository extends Repository {
         return INSTANCE;
     }
     
+    /**
+	 * Retourne l'objet Employee qui possède l'identifiant passé en paramètre.
+	 * 
+	 * @param ID L'identifiant de l'employé.
+	 */
+    public Employee getEmployeeById(String id)  {         
+    	Predicate<Employee> filter = employee -> id.equals(employee.getId());
+    	
+    	return employees.stream().filter(filter).findFirst().orElse(null);
+    }
     
     /**
 	 * Ajoute l'objet JSON représentant un employé au dépôt de données.
