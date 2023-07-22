@@ -38,10 +38,18 @@ public class EmployeeRepository extends Repository {
 	 * 
 	 * @param ID L'identifiant de l'employé.
 	 */
-    public Employee getEmployeeById(String id)  {         
+    public Employee getById(String id)  {         
     	Predicate<Employee> filter = employee -> id.equals(employee.getId());
     	
     	return employees.stream().filter(filter).findFirst().orElse(null);
+    }
+    
+    /**
+	 * Retourne tous les employés présentement dans le dépôt de données.
+	 * 
+	 */
+    public ArrayList<Employee> getAll()  {         
+    	return employees;
     }
     
     /**
@@ -108,8 +116,9 @@ public class EmployeeRepository extends Repository {
 		for (Employee employee : employees) {
 			JSONArray employeeRates = new JSONArray();
 			for (EmployeeRate employeeRate : employee.getRates()) {
+				LocalDate date = employeeRate.getDate();
 				JSONObject rate = new JSONObject();
-				rate.put("date", employeeRate.getDate());
+				rate.put("date", date.atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli() / 1000);
 				rate.put("rate", employeeRate.getRate());
 				employeeRates.add(rate);
 			}

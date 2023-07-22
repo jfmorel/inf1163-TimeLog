@@ -23,7 +23,7 @@ public class ProjectMenu {
 	    int lastIndex =  projects.size() + 1;
 	    System.out.printf("%d. Retour en arrière%n", lastIndex);
 
-	    selectedOption = Console.inInt("Projet:");
+	    selectedOption = Console.inInt("Option:");
 	    
 	    if (selectedOption == lastIndex) {
 	    	AdminMenu.mainMenu();

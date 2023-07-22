@@ -1,8 +1,5 @@
 package menus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import helpers.Console;
 import repositories.Admin;
 import repositories.AdminRepository;
@@ -89,9 +86,10 @@ public class AdminMenu {
 	    System.out.println("| Choisir une action |");
 	    System.out.println("1. Modifier NPE");
 	    System.out.println("2. Modifier mon ID");
-	    System.out.println("3. Gérer un projet existant");
-	    System.out.println("4. Ajouter un nouveau projet");
-	    System.out.println("5. Déconnexion");
+	    System.out.println("3. Gérer un employé");
+	    System.out.println("4. Gérer un projet existant");
+	    System.out.println("5. Ajouter un nouveau projet");
+	    System.out.println("6. Déconnexion");
 
 	    selectedOption = Console.inInt("Action:");
 
@@ -102,13 +100,16 @@ public class AdminMenu {
 		    case 2:
 		    	requestID();
 		    	break;
-		    case 3:
-		    	ProjectMenu.projectListMenu();
+		    case 3: 
+		    	EmployeeManagementMenu.employeeListMenu();
 		    	break;
 		    case 4:
-		    	System.out.println("Option 4 sélectionnée");
+		    	ProjectMenu.projectListMenu();
 		    	break;
 		    case 5:
+		    	System.out.println("Option 5 sélectionnée");
+		    	break;
+		    case 6:
 		    	LoginMenu.mainMenu();
 		    	break;
 	    }
