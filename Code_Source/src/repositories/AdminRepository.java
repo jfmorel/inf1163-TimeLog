@@ -35,7 +35,7 @@ public class AdminRepository extends Repository {
 	 * 
 	 * @param ID L'identifiant de l'administrateur.
 	 */
-    public Admin getAdminById(String id)  {         
+    public Admin getById(String id)  {         
     	Predicate<Admin> filter = admin -> id.equals(admin.getId());
     	
     	return admins.stream().filter(filter).findFirst().orElse(null);

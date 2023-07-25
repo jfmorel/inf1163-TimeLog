@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import helpers.Console;
 
-public class ProjectMenu {
+public class ProjectManagementMenu {
 	/**
 	 * Affiche la liste des projet disponibles pour modification ou suppression
 	 */

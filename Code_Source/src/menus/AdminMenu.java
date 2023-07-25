@@ -14,11 +14,7 @@ import repositories.ConfigRepository;
  * @version 1.0
  */
 public class AdminMenu {
-	static String currentAdminId;
-	enum ProjectOperation {
-		EDIT,
-		DELETE
-	};
+	private static Admin currentAdmin;
 	
 	/**
 	 * Demande à la console le nom d'usager et le ID de l'administrateur
@@ -29,10 +25,10 @@ public class AdminMenu {
 		System.out.println("| Veuillez vous identifier |");
 		
 		String username = Console.inString("Nom d'usager:");
-		String ID = Console.inString("ID:");
+		String id = Console.inString("ID:");
 		
-		if (AdminRepository.getInstance().isValid(username, ID)) {
-			currentAdminId = ID;
+		if (AdminRepository.getInstance().isValid(username, id)) {
+			currentAdmin = AdminRepository.getInstance().getById(id);
 			return true;
 		} else {
 			System.out.println();
@@ -68,9 +64,7 @@ public class AdminMenu {
 		System.out.println("| Veuillez entrer la nouvelle valeur de votre ID |");
 
 		String id = Console.inString("ID:");
-		Admin admin = AdminRepository.getInstance().getAdminById(currentAdminId);
-		currentAdminId = id;
-		admin.setId(id);
+		currentAdmin.setId(id);
 		AdminRepository.getInstance().writeDataSource();
 		
 		System.out.println();
@@ -104,12 +98,13 @@ public class AdminMenu {
 		    	EmployeeManagementMenu.employeeListMenu();
 		    	break;
 		    case 4:
-		    	ProjectMenu.projectListMenu();
+		    	ProjectManagementMenu.projectListMenu();
 		    	break;
 		    case 5:
 		    	System.out.println("Option 5 sélectionnée");
 		    	break;
 		    case 6:
+		    	currentAdmin = null;
 		    	LoginMenu.mainMenu();
 		    	break;
 	    }

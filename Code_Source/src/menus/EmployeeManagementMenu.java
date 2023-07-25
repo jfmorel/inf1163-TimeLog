@@ -7,7 +7,7 @@ import repositories.Employee;
 import repositories.EmployeeRepository;
 
 public class EmployeeManagementMenu {
-	static Employee currentEmployee;
+	private static Employee currentEmployee;
 	
 	/**
 	 * Affiche la liste des employés disponibles pour gestion
