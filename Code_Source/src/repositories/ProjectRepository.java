@@ -86,7 +86,7 @@ public class ProjectRepository extends Repository {
     
     
     /**
-	 * Lit le contenu du fichier JSON contenant la liste des employés et construit les objets.
+	 * Lit le contenu du fichier JSON contenant la liste des projets et construit les objets.
 	 * 
 	 */
     @SuppressWarnings("unchecked")

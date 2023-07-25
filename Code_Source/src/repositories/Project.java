@@ -58,15 +58,6 @@ public class Project {
 	}
 	
 	/**
-	 * Assigne le numéro d'identification du projet.
-	 * 
-	 * @param id Le numéro d'identification du projet.
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	/**
 	 * Retourne les activités du projet.
 	 * 
 	 * @return activities Les activités du projet.
