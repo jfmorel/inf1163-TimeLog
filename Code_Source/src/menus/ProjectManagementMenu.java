@@ -1,11 +1,13 @@
 package menus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import helpers.Console;
+import repositories.Project;
+import repositories.ProjectRepository;
 
 public class ProjectManagementMenu {
+	private static Project currentProject;
 	/**
 	 * Affiche la liste des projet disponibles pour modification ou suppression
 	 */
@@ -14,11 +16,10 @@ public class ProjectManagementMenu {
 		
 	    System.out.println("| Choisir un projet à gérer |");
 	    
-	    // TODO: Aller chercher la liste de projet à partir du/des fichiers JSON contenant la liste de projets
-	    ArrayList<String> projects = new ArrayList<String>(Arrays.asList("projet1", "projet2"));
+	    ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
 	    
 	    for (int i = 0; i < projects.size(); i++) {
-	    	System.out.printf("%d. %s%n", i+1, projects.get(i));
+	    	System.out.printf("%d. %s%n", i+1, projects.get(i).getName());
 	    }
 	    int lastIndex =  projects.size() + 1;
 	    System.out.printf("%d. Retour en arrière%n", lastIndex);
@@ -28,6 +29,7 @@ public class ProjectManagementMenu {
 	    if (selectedOption == lastIndex) {
 	    	AdminMenu.mainMenu();
 	    } else {
+	    	currentProject = projects.get(selectedOption - 1);
 	    	projectActionMenu();
 	    }
 	    
@@ -54,6 +56,7 @@ public class ProjectManagementMenu {
 		    	System.out.println("Option 2 sélectionnée");
 		    	break;
 		    case 3:
+		    	currentProject = null;
 		    	projectListMenu();
 		    	break;
 	    }

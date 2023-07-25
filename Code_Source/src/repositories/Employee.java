@@ -19,6 +19,7 @@ public class Employee {
 	 * 
 	 * @param username Le nom d'usager de l'employé.
 	 * @param id Le numéro d'identification de l'employé.
+	 * @param rates L'historique des taux horaires des l'employé.
 	 */
 	public Employee(String username, String id, ArrayList<EmployeeRate> rates) {
 		this.username = username;
@@ -47,7 +48,7 @@ public class Employee {
 	/**
 	 * Retourne le numéro d'identification de l'employé.
 	 * 
-	 * @return username Le numéro d'identification de l'employé.
+	 * @return id Le numéro d'identification de l'employé.
 	 */	
 	public String getId() {
 		return id;
