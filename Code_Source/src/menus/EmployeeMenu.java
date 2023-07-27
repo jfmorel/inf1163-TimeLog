@@ -3,6 +3,8 @@ package menus;
 import helpers.Console;
 import repositories.Employee;
 import repositories.EmployeeRepository;
+import repositories.Worklog;
+import repositories.WorklogRepository;
 
 /**
  * Classe de construction du menu employé.
@@ -62,7 +64,10 @@ public class EmployeeMenu {
 		    	break;
 		    case 2:
 		    	if (EmployeeRepository.getInstance().canEnd(currentEmployee)) {
-		    		// TODO: Terminer l'activité en mettant à jour l'objet Worklog approprié
+		    		Worklog worklog = WorklogRepository.getInstance().getOpenWorklog(currentEmployee);
+		    		worklog.stop();
+		    		WorklogRepository.getInstance().writeDataSource();
+		    		
 		    		System.out.println();
 					System.out.println("***Activité terminé avec succès***");
 					System.out.println();

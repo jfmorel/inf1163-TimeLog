@@ -89,4 +89,12 @@ public class Worklog {
 	public Instant getEnd() {
 		return end;
 	}
+	
+	/**
+	 * Termine une entrée de temps de travail.
+	 * 
+	 */
+	public void stop() {
+		end = Instant.now();
+	}
 }

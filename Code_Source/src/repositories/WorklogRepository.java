@@ -42,6 +42,16 @@ public class WorklogRepository extends Repository {
     }
     
     /**
+	 * Retourne l'objet Worklog en cours pour un employé.
+	 * 
+	 */
+    public Worklog getOpenWorklog(Employee employee)  {
+    	Predicate<Worklog> filter = worklog -> employee.equals(worklog.getEmployee()) && worklog.getEnd().toEpochMilli() == 0;
+    	
+    	return worklogs.stream().filter(filter).findFirst().orElse(null);
+    }
+    
+    /**
 	 * Retourne toutes les entrées de temps de travail présentement dans le dépôt de données.
 	 * 
 	 */

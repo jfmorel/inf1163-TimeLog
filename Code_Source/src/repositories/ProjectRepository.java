@@ -2,6 +2,7 @@ package repositories;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -47,6 +48,17 @@ public class ProjectRepository extends Repository {
 	 */
     public ArrayList<Project> getAll()  {         
     	return projects;
+    }
+    
+    /**
+	 * Retourne tous les projets assignés à un employé se trouvant dans le dépôt de données.
+	 * 
+	 * @param employee L'employé auquel est assigné le projet
+	 */
+    public ArrayList<Project> getAllEmployeeProjects(Employee employee)  {         
+    	Predicate<Project> filter = project -> project.getAssignedEmployees().contains(employee);
+    	
+    	return (ArrayList<Project>) projects.stream().filter(filter).collect(Collectors.toList());
     }
     
     /**

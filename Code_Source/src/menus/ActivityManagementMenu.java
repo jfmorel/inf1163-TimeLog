@@ -23,7 +23,7 @@ public class ActivityManagementMenu {
 		
 	    System.out.println("| Choisir un projet |");
 	    
-	    ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
+	    ArrayList<Project> projects = ProjectRepository.getInstance().getAllEmployeeProjects(currentEmployee);
 	    
 	    for (int i = 0; i < projects.size(); i++) {
 	    	System.out.printf("%d. %s%n", i+1, projects.get(i).getName());
