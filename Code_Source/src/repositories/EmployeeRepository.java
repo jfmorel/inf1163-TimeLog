@@ -53,6 +53,47 @@ public class EmployeeRepository extends Repository {
     }
     
     /**
+	 * Vérifie si la combinaison username et id se trouve dans le dépot de données.
+	 * 
+	 * @param username Le nom d'usager de l'employé.
+	 * @param id Le numéro d'identification de l'employé.
+	 * @return booléen indiquant si la combinaison username et id se trouve dans le dépot de données.
+	 */
+    public boolean isValid(String username, String id) {
+    	Predicate<Employee> filter = employee -> username.equals(employee.getUsername()) && id.equals(employee.getId());
+    	if (employees.stream().anyMatch(filter)) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
+    
+    /**
+	 * Vérifie si l'employé peut démarrer une activité.
+	 * 
+	 * @param employee L'employé désirant démarrer une activité.
+	 * @return booléen indiquant si l'employé peut démarrer une activité.
+	 */
+    public boolean canStart(Employee employee) {
+    	Predicate<Worklog> filter = worklog -> employee.equals(worklog.getEmployee()) && worklog.getEnd().toEpochMilli() == 0;
+    	if (WorklogRepository.getInstance().getAll().stream().anyMatch(filter)) {
+    		return false;
+    	} else {
+    		return true;
+    	}
+    }
+    
+    /**
+	 * Vérifie si l'employé peut terminer une activité.
+	 * 
+	 * @param employee L'employé désirant terminer une activité.
+	 * @return booléen indiquant si l'employé peut terminer une activité.
+	 */
+    public boolean canEnd(Employee employee) {
+    	return !canStart(employee);
+    }
+    
+    /**
 	 * Ajoute l'objet JSON représentant un employé au dépôt de données.
 	 * 
 	 * @param employee L'objet JSON représentant un employé.
@@ -76,22 +117,6 @@ public class EmployeeRepository extends Repository {
         double rate = (double) employeeRate.get("rate");
         
         rates.add(new EmployeeRate(date, rate));
-    }
-    
-    /**
-	 * Vérifie si la combinaison username et id se trouve dans le dépot de données.
-	 * 
-	 * @param username Le nom d'usager de l'employé.
-	 * @param id Le numéro d'identification de l'employé.
-	 * @return booléen indiquant si la combinaison username et id se trouve dans le dépot de données.
-	 */
-    public boolean isValid(String username, String id) {
-    	Predicate<Employee> filter = employee -> username.equals(employee.getUsername()) && id.equals(employee.getId());
-    	if (employees.stream().anyMatch(filter)) {
-    		return true;
-    	} else {
-    		return false;
-    	}
     }
     
     /**

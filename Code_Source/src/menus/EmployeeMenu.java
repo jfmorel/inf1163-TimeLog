@@ -52,11 +52,25 @@ public class EmployeeMenu {
 	    // Switch construct
 	    switch (selectedOption) {
 		    case 1:
-		    	// TODO: Verifier si une activité pour cet employé est déjà démarré
-		    	ActivityManagementMenu.projectListMenu(currentEmployee);
+		    	if (EmployeeRepository.getInstance().canStart(currentEmployee)) {
+		    		ActivityManagementMenu.projectListMenu(currentEmployee);
+		    	} else {
+		    		System.out.println();
+					System.out.println("***Une activité est déjà en cours. Impossible d'en démarrer une nouvelle***");
+					System.out.println();
+		    	}
 		    	break;
 		    case 2:
-		    	System.out.println("Option 2 sélectionnée");
+		    	if (EmployeeRepository.getInstance().canEnd(currentEmployee)) {
+		    		// TODO: Terminer l'activité en mettant à jour l'objet Worklog approprié
+		    		System.out.println();
+					System.out.println("***Activité terminé avec succès***");
+					System.out.println();
+		    	} else {
+		    		System.out.println();
+					System.out.println("***Aucune activité en cours à terminer***");
+					System.out.println();
+		    	}
 		    	break;
 		    case 3:
 		    	System.out.println("Option 3 sélectionnée");
