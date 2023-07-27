@@ -42,11 +42,28 @@ public class WorklogRepository extends Repository {
     }
     
     /**
-	 * Retourne tous les projets présentement dans le dépôt de données.
+	 * Retourne toutes les entrées de temps de travail présentement dans le dépôt de données.
 	 * 
 	 */
     public ArrayList<Worklog> getAll()  {
     	return worklogs;
+    }
+    
+    /**
+	 * Retourne le prochain ID pour indexer l'entrée de temps de travail.
+	 * 
+	 */
+    public String getNextId()  {
+    	Worklog lastEntry = worklogs.get(worklogs.size() - 1);
+    	return Integer.toString(Integer.parseInt(lastEntry.getId()) + 1);
+    }
+    
+    /**
+	 * Ajoute une nouvelle entrée de temps de travail dans le dépôt de données.
+	 * 
+	 */
+    public void insert(Worklog worklog)  {
+    	worklogs.add(worklog);
     }
     
     /**

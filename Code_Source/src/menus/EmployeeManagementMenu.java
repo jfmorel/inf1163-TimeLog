@@ -27,14 +27,15 @@ public class EmployeeManagementMenu {
 
 	    selectedOption = Console.inInt("Option:");
 	    
-	    if (selectedOption == lastIndex) {
+	    if (selectedOption > lastIndex) {
+	    	employeeListMenu();
+	    } else if (selectedOption == lastIndex) {
+	    	currentEmployee = null;
 	    	AdminMenu.mainMenu();
 	    } else {
 	    	currentEmployee = employees.get(selectedOption - 1);
 	    	employeeActionMenu();
 	    }
-	    
-	    employeeListMenu();
 	}
 	
 	/**

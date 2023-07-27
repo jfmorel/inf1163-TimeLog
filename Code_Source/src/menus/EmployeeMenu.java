@@ -1,6 +1,7 @@
 package menus;
 
 import helpers.Console;
+import repositories.Employee;
 import repositories.EmployeeRepository;
 
 /**
@@ -11,6 +12,7 @@ import repositories.EmployeeRepository;
  * @version 1.0
  */
 public class EmployeeMenu {
+	private static Employee currentEmployee;
 	/**
 	 * Demande à la console le nom d'usager et le ID de l'employé
 	 * 
@@ -20,9 +22,10 @@ public class EmployeeMenu {
 		System.out.println("| Veuillez vous identifier |");
 		
 		String username = Console.inString("Nom d'usager:");
-		String ID = Console.inString("ID:");
+		String id = Console.inString("ID:");
 		
-		if (EmployeeRepository.getInstance().isValid(username, ID)) {
+		if (EmployeeRepository.getInstance().isValid(username, id)) {
+			currentEmployee = EmployeeRepository.getInstance().getById(id);
 			return true;
 		} else {
 			System.out.println();
@@ -49,7 +52,8 @@ public class EmployeeMenu {
 	    // Switch construct
 	    switch (selectedOption) {
 		    case 1:
-		    	System.out.println("Option 1 sélectionnée");
+		    	// TODO: Verifier si une activité pour cet employé est déjà démarré
+		    	ActivityManagementMenu.projectListMenu(currentEmployee);
 		    	break;
 		    case 2:
 		    	System.out.println("Option 2 sélectionnée");
@@ -58,6 +62,7 @@ public class EmployeeMenu {
 		    	System.out.println("Option 3 sélectionnée");
 		    	break;
 		    case 4:
+		    	currentEmployee = null;
 		    	LoginMenu.mainMenu();
 		    	break;
 	    }

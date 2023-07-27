@@ -14,7 +14,7 @@ public class ProjectManagementMenu {
 	public static void projectListMenu() {
 		int selectedOption;
 		
-	    System.out.println("| Choisir un projet à gérer |");
+	    System.out.println("| Choisir un projet |");
 	    
 	    ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
 	    
@@ -26,14 +26,15 @@ public class ProjectManagementMenu {
 
 	    selectedOption = Console.inInt("Option:");
 	    
-	    if (selectedOption == lastIndex) {
+	    if (selectedOption > lastIndex) {
+	    	projectListMenu();
+	    } else if (selectedOption == lastIndex) {
+	    	currentProject = null;
 	    	AdminMenu.mainMenu();
 	    } else {
 	    	currentProject = projects.get(selectedOption - 1);
 	    	projectActionMenu();
 	    }
-	    
-	    projectListMenu();
 	}
 	
 	/**
