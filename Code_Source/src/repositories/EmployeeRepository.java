@@ -74,7 +74,7 @@ public class EmployeeRepository extends Repository {
 	 * @param employee L'employé désirant démarrer une activité.
 	 * @return booléen indiquant si l'employé peut démarrer une activité.
 	 */
-    public boolean canStart(Employee employee) {
+    public boolean canStartActivity(Employee employee) {
     	Predicate<Worklog> filter = worklog -> employee.equals(worklog.getEmployee()) && worklog.getEnd().toEpochMilli() == 0;
     	if (WorklogRepository.getInstance().getAll().stream().anyMatch(filter)) {
     		return false;
@@ -89,8 +89,8 @@ public class EmployeeRepository extends Repository {
 	 * @param employee L'employé désirant terminer une activité.
 	 * @return booléen indiquant si l'employé peut terminer une activité.
 	 */
-    public boolean canEnd(Employee employee) {
-    	return !canStart(employee);
+    public boolean canEndActivity(Employee employee) {
+    	return !canStartActivity(employee);
     }
     
     /**

@@ -54,7 +54,7 @@ public class EmployeeMenu {
 	    // Switch construct
 	    switch (selectedOption) {
 		    case 1:
-		    	if (EmployeeRepository.getInstance().canStart(currentEmployee)) {
+		    	if (EmployeeRepository.getInstance().canStartActivity(currentEmployee)) {
 		    		ActivityManagementMenu.projectListMenu(currentEmployee);
 		    	} else {
 		    		System.out.println();
@@ -63,7 +63,7 @@ public class EmployeeMenu {
 		    	}
 		    	break;
 		    case 2:
-		    	if (EmployeeRepository.getInstance().canEnd(currentEmployee)) {
+		    	if (EmployeeRepository.getInstance().canEndActivity(currentEmployee)) {
 		    		Worklog worklog = WorklogRepository.getInstance().getOpenWorklog(currentEmployee);
 		    		worklog.stop();
 		    		WorklogRepository.getInstance().writeDataSource();
