@@ -31,7 +31,7 @@ public class EmployeeMenu {
 			return true;
 		} else {
 			System.out.println();
-			System.out.println("***Informations de connexion érronées***");
+			System.out.println("***Informations de connexion erronées***");
 			System.out.println();
 			
 			return false;
