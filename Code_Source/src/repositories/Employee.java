@@ -1,5 +1,6 @@
 package repositories;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -12,6 +13,9 @@ import java.util.ArrayList;
 public class Employee {
 	private String username;
 	private String id;
+	private String sin;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private ArrayList<EmployeeRate> rates = new ArrayList<EmployeeRate>();
 	
 	/**
@@ -19,11 +23,17 @@ public class Employee {
 	 * 
 	 * @param username Le nom d'usager de l'employé.
 	 * @param id Le numéro d'identification de l'employé.
+	 * @param sin Le numéro d'assurance sociale de l'employé.
+	 * @param startDate La date d'embauche de l'employé.
+	 * @param endDate La date de terminaison de l'employé.
 	 * @param rates L'historique des taux horaires des l'employé.
 	 */
-	public Employee(String username, String id, ArrayList<EmployeeRate> rates) {
+	public Employee(String username, String id, String sin, LocalDate startDate, LocalDate endDate, ArrayList<EmployeeRate> rates) {
 		this.username = username;
 		this.id = id;
+		this.sin = sin;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.rates = rates;
 	}
 	
@@ -61,6 +71,33 @@ public class Employee {
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	/**
+	 * Retourne le numéro d'assurance sociale de l'employé.
+	 * 
+	 * @return sin Le numéro d'assurance sociale de l'employé.
+	 */	
+	public String getSin() {
+		return sin;
+	}
+	
+	/**
+	 * Retourne la date d'embauche de l'employé.
+	 * 
+	 * @return startDate La date d'embauche de l'employé.
+	 */	
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+	
+	/**
+	 * Retourne la date de terminaison de l'employé.
+	 * 
+	 * @return endDate La date de terminaison de l'employé.
+	 */	
+	public LocalDate getEndDate() {
+		return endDate;
 	}
 	
 	/**

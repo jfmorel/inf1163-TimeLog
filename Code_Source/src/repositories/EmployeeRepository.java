@@ -102,14 +102,17 @@ public class EmployeeRepository extends Repository {
 	private void addEmployeeToRepository(JSONObject employee)  {         
         String username = (String) employee.get("username");             
         String id = (String) employee.get("id");
-        JSONArray employeeRatesList = (JSONArray) employee.get("rates");;
+        String sin = (String) employee.get("sin");
+        LocalDate startDate = Instant.ofEpochSecond((long) employee.get("startDate")).atOffset(ZoneOffset.UTC).toLocalDate();
+        LocalDate endDate = (long) employee.get("endDate") == 0 ? null : Instant.ofEpochSecond((long) employee.get("endDate")).atOffset(ZoneOffset.UTC).toLocalDate();
+        JSONArray employeeRatesList = (JSONArray) employee.get("rates");
         ArrayList<EmployeeRate> rates = new ArrayList<EmployeeRate>();
         
         // Itération dans le tableau des taux horaire de l'employé
         employeeRatesList.forEach(employeeRate -> addEmployeeRateToEmployee((JSONObject) employeeRate, rates));
         
 
-        employees.add(new Employee(username, id, rates));
+        employees.add(new Employee(username, id, sin, startDate, endDate, rates));
     }
     
     private void addEmployeeRateToEmployee(JSONObject employeeRate, ArrayList<EmployeeRate> rates)  {

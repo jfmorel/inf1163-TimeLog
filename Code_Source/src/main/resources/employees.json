@@ -2,6 +2,9 @@
   {
     "id": "1",
     "username": "employe1",
+    "sin": "123456789",
+    "startDate": 1609477200,
+    "endDate": 0,
     "rates": [
       {
         "date": 1609477200,
@@ -20,6 +23,9 @@
   {
     "id": "2",
     "username": "employe2",
+    "sin": "987654321",
+    "startDate": 1672549200,
+    "endDate": 0,
     "rates": [
       {
         "date": 1672549200,
@@ -38,6 +44,9 @@
   {
     "id": "3",
     "username": "employe3",
+    "sin": "147258369",
+    "startDate": 1641013200,
+    "endDate": 0,
     "rates": [
       {
         "date": 1641013200,

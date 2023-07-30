@@ -13,12 +13,12 @@ Le projet TimeLog utilise les librairie externes suivantes (téléchargées et i
     ![Importation projet Maven](assets/maven_import.png)
 
 ## Initialisation des données
-Lors de la toute première exécution du programme (Debug ou JAR), tous les fichiers `.json` sont copiées dans un dossier `.timeLog` créé dans le dossier personel du compte utilisateur.
+Lors de la toute première exécution du programme (Debug ou JAR), tous les fichiers `.json` sont copiées dans un dossier `.timeLog` créé dans le dossier personnel du compte utilisateur.
 
 Par exemple, sur Windows, le dossier est créé à l'endroit suivant:
 `C:\Users\<currentUser>\.timeLog`.
 
-Cette opération est nécessaire puisque les fichiers `.json` servent de couche de persistence des données et les fichiers inclus dans un JAR sont offerts en lecture seulement. Les fichiers se trouvant dans le dossier `C:\Users\<currentUser>\.timeLog` sont offerts en lecture et écriture.
+Cette opération est nécessaire puisque les fichiers `.json` servent de couche de persistance des données et les fichiers inclus dans un JAR sont offerts en lecture seulement. Les fichiers se trouvant dans le dossier `C:\Users\<currentUser>\.timeLog` sont offerts en lecture et écriture.
 
 ### Réinitialisation des données
 Si lors du développement, il devient nécessaire de réinitialiser le contenu des fichiers `.json` copiés. Simplement supprimer le dossier `C:\Users\<currentUser>\.timeLog` et relancer l'exécution du programme.
