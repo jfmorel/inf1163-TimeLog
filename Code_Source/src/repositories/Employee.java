@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class Employee {
 	private String username;
 	private String id;
+	private String loginId;
 	private String sin;
 	private LocalDate startDate;
 	private LocalDate endDate;
@@ -23,6 +24,7 @@ public class Employee {
 	 * 
 	 * @param username Le nom d'usager de l'employé.
 	 * @param id Le numéro d'identification de l'employé.
+	 * @param loginId Le numéro d'identification de l'employé utilisé pour connexion.
 	 * @param sin Le numéro d'assurance sociale de l'employé.
 	 * @param startDate La date d'embauche de l'employé.
 	 * @param endDate La date de terminaison de l'employé.
@@ -31,6 +33,7 @@ public class Employee {
 	public Employee(String username, String id, String sin, LocalDate startDate, LocalDate endDate, ArrayList<EmployeeRate> rates) {
 		this.username = username;
 		this.id = id;
+		this.loginId = id;
 		this.sin = sin;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -65,12 +68,21 @@ public class Employee {
 	}
 	
 	/**
-	 * Assigne le numéro d'identification de l'employé.
+	 * Retourne le numéro d'identification de connexion de l'employé.
 	 * 
-	 * @param id Le numéro d'identification de l'employé.
+	 * @return loginId Le numéro d'identification de connexion de l'employé.
+	 */	
+	public String getLoginId() {
+		return loginId;
+	}
+	
+	/**
+	 * Assigne le numéro d'identification de connexion de l'employé.
+	 * 
+	 * @param id Le numéro d'identification de connexion de l'employé.
 	 */
-	public void setId(String id) {
-		this.id = id;
+	public void setLoginId(String id) {
+		this.loginId = id;
 	}
 	
 	/**

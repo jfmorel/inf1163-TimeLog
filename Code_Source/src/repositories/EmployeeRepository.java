@@ -60,7 +60,7 @@ public class EmployeeRepository extends Repository {
 	 * @return booléen indiquant si la combinaison username et id se trouve dans le dépot de données.
 	 */
     public boolean isValid(String username, String id) {
-    	Predicate<Employee> filter = employee -> username.equals(employee.getUsername()) && id.equals(employee.getId());
+    	Predicate<Employee> filter = employee -> username.equals(employee.getUsername()) && id.equals(employee.getLoginId());
     	if (employees.stream().anyMatch(filter)) {
     		return true;
     	} else {
@@ -154,6 +154,9 @@ public class EmployeeRepository extends Repository {
 			JSONObject employeeObject = new JSONObject();
 			employeeObject.put("username", employee.getUsername());
 			employeeObject.put("id", employee.getId());
+			employeeObject.put("sin", employee.getSin());
+			employeeObject.put("startDate", employee.getStartDate().atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli() / 1000);
+			employeeObject.put("endDate", employee.getEndDate() == null ? 0 : employee.getEndDate().atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli() / 1000);
 			employeeObject.put("rates", employeeRates);
 			
 			employeeList.add(employeeObject);

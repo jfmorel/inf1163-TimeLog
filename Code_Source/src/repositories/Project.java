@@ -1,6 +1,8 @@
 package repositories;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Classe représentant un projet.
@@ -73,5 +75,19 @@ public class Project {
 	 */	
 	public ArrayList<Employee> getAssignedEmployees() {
 		return assignedEmployees;
+	}
+	
+	/**
+	 * Ajoute un employé à la liste d'assignation du projet.
+	 * Utilise un LinkedHashSet pour supprimer les duplicats.
+	 * 
+	 * @param employee L'employé à assigner.
+	 */	
+	public void addEmployee(Employee employee) {
+		assignedEmployees.add(employee);
+		Set<Employee> set = new LinkedHashSet<>();
+		set.addAll(assignedEmployees);
+		assignedEmployees.clear();
+		assignedEmployees.addAll(set);
 	}
 }

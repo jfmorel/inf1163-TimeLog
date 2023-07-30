@@ -3,8 +3,11 @@ package menus;
 import java.util.ArrayList;
 
 import helpers.Console;
+import repositories.ConfigRepository;
 import repositories.Employee;
 import repositories.EmployeeRepository;
+import repositories.Project;
+import repositories.ProjectRepository;
 
 public class EmployeeManagementMenu {
 	private static Employee currentEmployee;
@@ -46,7 +49,8 @@ public class EmployeeManagementMenu {
 	    System.out.println("| Choisir une action |");
 	    System.out.println("1. Modifier le nom d'usager");
 	    System.out.println("2. Modifier l'ID");
-	    System.out.println("3. Retour en arrière");
+	    System.out.println("3. Assigner à un projet");
+	    System.out.println("4. Retour en arrière");
 
 	    selectedOption = Console.inInt("Action:");
 
@@ -58,6 +62,9 @@ public class EmployeeManagementMenu {
 		    	requestID();
 		    	break;
 		    case 3:
+		    	requestProject();
+		    	break;
+		    case 4:
 		    	currentEmployee = null;
 		    	employeeListMenu();
 		    	break;
@@ -87,14 +94,50 @@ public class EmployeeManagementMenu {
 	 * 
 	 */
 	public static void requestID() {
-		System.out.println("| Veuillez entrer la nouvelle valeur de l'ID de l'employé |");
+		System.out.println("| Veuillez entre1r la nouvelle valeur de l'ID de l'employé |");
 
 		String id = Console.inString("ID:");
-		currentEmployee.setId(id);
+		currentEmployee.setLoginId(id);
 		EmployeeRepository.getInstance().writeDataSource();
 		
 		System.out.println();
 		System.out.println("***ID modifié avec succès***");
 		System.out.println();
+	}
+	
+	/**
+	 * Demande à la console le projet auquel assigné l'employé
+	 * 
+	 */
+	public static void requestProject() {
+		System.out.println("| Veuillez choisir le projet |");
+		
+		ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
+	    
+	    for (int i = 0; i < projects.size(); i++) {
+	    	System.out.printf("%d. %s%n", i+1, projects.get(i).getName());
+	    }
+	    int lastIndex =  projects.size() + 1;
+	    System.out.printf("%d. Retour en arrière%n", lastIndex);
+	    
+	    int selectedOption = Console.inInt("Projet:");
+
+		ArrayList<Project> employeeProjects = ProjectRepository.getInstance().getAllEmployeeProjects(currentEmployee);
+		long npe = ConfigRepository.getInstance().getConfig().getNPE();
+
+		if (employeeProjects.size() < npe) {
+			Project project = projects.get(selectedOption - 1);
+			project.addEmployee(currentEmployee);
+			
+			ProjectRepository.getInstance().writeDataSource();
+			
+			System.out.println();
+			System.out.println("***Employé assigné avec succès***");
+			System.out.println();
+		} else {
+			System.out.println();
+			System.out.println("***L'employé n'a pas pu être assigné. Violation du NPE.***");
+			System.out.println();
+		}
 	}
 }
