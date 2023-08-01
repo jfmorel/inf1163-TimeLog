@@ -51,6 +51,7 @@ public class WorklogRepository extends Repository {
     	return worklogs.stream().filter(filter).findFirst().orElse(null);
     }
     
+    
     /**
 	 * Retourne toutes les entrées de temps de travail présentement dans le dépôt de données.
 	 * 
