@@ -16,22 +16,18 @@ import java.util.Locale;
  * @version 1.0
  */
 
-public class Rapport {
+public class Report {
 	private ArrayList<Worklog> worklogs;
-	private WorklogRepository worklogRepo;
 	private String id;
-	private ProjectRepository projectRepository;
 	private HashMap<String, Double> log;
 	private String type;
 
 	
-	public Rapport(String id, HashMap<String, Double> logs) {
+	public Report(String id, HashMap<String, Double> logs) {
 		/**
 		 * À chaque rapport, il faut générer un nouveau worklogs afin de s'assurer que nous avons l'information la plus récente
 		 */
-		worklogs = new ArrayList<>();
-		worklogs = worklogRepo.getAll();
-		projectRepository = ProjectRepository.getInstance();
+		worklogs = WorklogRepository.getInstance().getAll();
 		this.id = id;
 		this.log = logs;
 		
@@ -84,7 +80,7 @@ public class Rapport {
 	 * crée un hashmap qui contient le pourcentage de progrès fait pour chaque projet  
 	 * */	
 	public void rapportGlobal() {
-		 ArrayList<Project> projects = projectRepository.getAll();
+		 ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
 		 HashMap<String, Double> globalProgress = new HashMap<String, Double>();
 		 for(Project p : projects) {
 			 globalProgress.put(p.getName(),getGlobalProgress(parseWorklog(p.getId()),p.getActivities()) );

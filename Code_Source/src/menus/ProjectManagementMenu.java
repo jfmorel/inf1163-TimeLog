@@ -43,9 +43,10 @@ public class ProjectManagementMenu {
 	private static void projectActionMenu() {
 		int selectedOption;
 	    System.out.println("| Choisir une action |");
-	    System.out.println("1. Modifier le projet");
-	    System.out.println("2. Supprimer le projet");
-	    System.out.println("3. Retour en arrière");
+	    System.out.println("1. Générer un rapport de projet");
+	    System.out.println("2. Modifier le projet");
+	    System.out.println("3. Supprimer le projet");
+	    System.out.println("4. Retour en arrière");
 
 	    selectedOption = Console.inInt("Action:");
 
@@ -57,6 +58,9 @@ public class ProjectManagementMenu {
 		    	System.out.println("Option 2 sélectionnée");
 		    	break;
 		    case 3:
+		    	System.out.println("Option 3 sélectionnée");
+		    	break;
+		    case 4:
 		    	currentProject = null;
 		    	projectListMenu();
 		    	break;

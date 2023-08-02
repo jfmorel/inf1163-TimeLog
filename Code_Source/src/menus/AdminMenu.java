@@ -80,9 +80,9 @@ public class AdminMenu {
 	    System.out.println("| Choisir une action |");
 	    System.out.println("1. Modifier NPE");
 	    System.out.println("2. Modifier mon ID");
-	    System.out.println("3. Gérer un employé");
-	    System.out.println("4. Gérer un projet existant");
-	    System.out.println("5. Ajouter un nouveau projet");
+	    System.out.println("3. Générer un rapport global");
+	    System.out.println("4. Gérer un employé");
+	    System.out.println("5. Gérer un projet existant");
 	    System.out.println("6. Déconnexion");
 
 	    selectedOption = Console.inInt("Action:");
@@ -94,14 +94,14 @@ public class AdminMenu {
 		    case 2:
 		    	requestID();
 		    	break;
-		    case 3: 
+		    case 3:
+		    	System.out.println("Option 3 sélectionnée");
+		    	break;
+		    case 4: 
 		    	EmployeeManagementMenu.employeeListMenu();
 		    	break;
-		    case 4:
-		    	ProjectManagementMenu.projectListMenu();
-		    	break;
 		    case 5:
-		    	System.out.println("Option 5 sélectionnée");
+		    	ProjectManagementMenu.projectListMenu();
 		    	break;
 		    case 6:
 		    	currentAdmin = null;

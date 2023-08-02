@@ -9,25 +9,25 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- * Classe singleton représentant un dépôt de données de type Rapport.
+ * Classe singleton représentant un dépôt de données de type Report.
  * @author Généviève Abikou
  * @author William McAllister
  * @author Jean-Francois Morel
  * @version 1.0
  */
 
-public class RapportRepository extends Repository {
-	private static RapportRepository INSTANCE;
+public class ReportRepository extends Repository {
+	private static ReportRepository INSTANCE;
 	private String fileName = super.filePrefix.concat("rapport.json");
-    private ArrayList<Rapport> rapports = new ArrayList<Rapport>();
+    private ArrayList<Report> rapports = new ArrayList<Report>();
     
     
-    private RapportRepository() {
+    private ReportRepository() {
     	readDataSource();
     }
-    public static RapportRepository getInstance() {
+    public static ReportRepository getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new RapportRepository();
+            INSTANCE = new ReportRepository();
         }
         
         return INSTANCE;
@@ -39,7 +39,7 @@ public class RapportRepository extends Repository {
     	for(Object s : logs.keySet()) {
     		r.put((String)s,(Double) logs.get(s));
     	}
-    	rapports.add(new Rapport(id,r));   
+    	rapports.add(new Report(id,r));   
     }
     /**
   	 * Lit le contenu du fichier JSON contenant la liste des employés et construit les objets.
@@ -56,7 +56,7 @@ public class RapportRepository extends Repository {
       @SuppressWarnings("unchecked")
       public void writeDataSource() {
     	  JSONArray rapportList = new JSONArray();
-    	  for(Rapport r : rapports) {
+    	  for(Report r : rapports) {
     		  JSONObject logs = new JSONObject();
     		  for(String id : r.getLog().keySet()) {
     			  JSONObject log = new JSONObject();
