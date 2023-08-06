@@ -51,9 +51,7 @@ public class AdminMenu {
 		currentConfig.setNPE(npe);
 		ConfigRepository.getInstance().writeDataSource();
 		
-		System.out.println();
-		System.out.println("***NPE modifié avec succès***");
-		System.out.println();
+	
 	}
 	
 	/**
@@ -90,6 +88,9 @@ public class AdminMenu {
 	    switch (selectedOption) {
 		    case 1:
 		    	requestNPE();
+		    	System.out.println();
+				System.out.println("***NPE modifié avec succès***");
+				System.out.println();
 		    	break;
 		    case 2:
 		    	requestID();

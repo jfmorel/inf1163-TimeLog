@@ -57,4 +57,23 @@ public class Admin {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	/*
+	 * Permet à l'administrateur de modifier le nom d'utilisateur d'un employé
+	 * 
+	 * @param username : le nouveau nom d'utilisateur | e : Employé en question
+	 * */
+	
+	public void modifyEmployeeUsername(String username, Employee e) {
+		e.setUsername(username);
+	}
+	/*
+	 * Permet à l'administrateur de modifier le ID d'un utilisateur d'un employé
+	 * 
+	 * @param username : le nouveau id de l'utilisateur | e : Employé en question
+	 * */
+	
+	public void modifyEmployeeID(String id, Employee e) {
+		e.setLoginId(id);
+	}
 }

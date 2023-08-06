@@ -1,5 +1,7 @@
 package menus;
 
+import java.io.ByteArrayInputStream;
+
 import helpers.Console;
 
 /**
@@ -10,17 +12,17 @@ import helpers.Console;
  * @version 1.0
  */
 public class LoginMenu {
+	private static int selectedOption;
 	/**
 	 * Affiche le menu principal de connexion
 	 */
 	public static void mainMenu() {
-		int selectedOption;
+		
 	    System.out.println("| Connexion en tant que |");
 	    System.out.println("1. Administrateur");
 	    System.out.println("2. Employé");
 
 	    selectedOption = Console.inInt("Rôle:");
-
 	    switch (selectedOption) {
 		    case 1:
 		    	boolean validAdminLogin = AdminMenu.validateLogin();
@@ -33,9 +35,16 @@ public class LoginMenu {
 		    	if (validUserLogin) {
 		    		EmployeeMenu.mainMenu();
 		    	}
+		    case 3: {
+		    	System.out.println("error");
+		    }
 		    	break;
 	    }
 	    
 	    mainMenu();
+	}
+	
+	public static void setOption(int i) {
+		selectedOption = i;
 	}
 }
