@@ -1,8 +1,17 @@
 package menus;
 
+import java.time.DateTimeException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Scanner;
+
 import helpers.Console;
 import repositories.Employee;
 import repositories.EmployeeRepository;
+import repositories.Report;
 import repositories.Worklog;
 import repositories.WorklogRepository;
 
@@ -81,7 +90,31 @@ public class EmployeeMenu {
 		    	}
 		    	break;
 		    case 3:
-		    	System.out.println("Option 3 sélectionnée");
+		    	Scanner scanner = new Scanner(System.in);
+
+		       
+		        System.out.print("Entrer l'année: ");
+		        String année = scanner.nextLine();
+
+		        System.out.print("Entrer le mois: ");
+		        String mois = scanner.nextLine();
+		        
+		        System.out.print("Entrer le jour: ");
+		        String jour = scanner.nextLine();
+		      
+
+		        try {
+		            // Parse the date and time inputs into LocalDateTime objects
+		            LocalDate date = LocalDate.of(Integer.parseInt(année),Integer.parseInt(mois),Integer.parseInt(jour));
+
+		            // Convert LocalDateTime to Instant with ZoneOffset.UTC
+		            Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
+		            Report r = new Report();
+			        r.rapportEmployee(instant, currentEmployee);
+		        } catch (DateTimeException e) {
+		            System.out.println("Invalid date or time format. Please use the correct format.");
+		        }
+		       
 		    	break;
 		    case 4:
 		    	currentEmployee = null;

@@ -53,7 +53,7 @@ public class ProjectManagementMenu {
 
 	    switch (selectedOption) {
 		    case 1:
-		    	Report r = new Report(null, null);
+		    	Report r = new Report();
 		    	r.rapportProject(currentProject);
 		    	break;
 		    case 2:
@@ -70,4 +70,5 @@ public class ProjectManagementMenu {
 	    
 	    projectActionMenu();
 	}
+	
 }

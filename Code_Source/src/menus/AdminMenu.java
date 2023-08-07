@@ -5,6 +5,7 @@ import repositories.Admin;
 import repositories.AdminRepository;
 import repositories.Config;
 import repositories.ConfigRepository;
+import repositories.Report;
 
 /**
  * Classe de construction du menu administrateur.
@@ -96,7 +97,8 @@ public class AdminMenu {
 		    	requestID();
 		    	break;
 		    case 3:
-		    	System.out.println("Option 3 sélectionnée");
+		    	Report p = new Report();
+		    	p.rapportGlobal();
 		    	break;
 		    case 4: 
 		    	EmployeeManagementMenu.employeeListMenu();

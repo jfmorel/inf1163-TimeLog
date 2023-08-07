@@ -23,13 +23,12 @@ public class Report {
 	private String type;
 
 	
-	public Report(String id, HashMap<String, Double> logs) {
+	public Report() {
 		/**
 		 * À chaque rapport, il faut générer un nouveau worklogs afin de s'assurer que nous avons l'information la plus récente
 		 */
 		worklogs = WorklogRepository.getInstance().getAll();
-		this.id = id;
-		this.log = logs;
+		
 		
 	}
 	public HashMap<String,Double> getLog(){
@@ -58,13 +57,17 @@ public class Report {
 			double paie = getActivityPay(employee, log);
 			paieActivity.put(log.getActivity().getName(), paie);
 		}
-		log =  paieActivity;
-		type ="employee";
+	
 		 System.out.println("Rapport de l'Employé: " + employee.getUsername());
+		 double total = 0;
 		 for(String log: paieActivity.keySet()) {
 			System.out.println("	Activité:" + log);
 			System.out.println("		Paie:" + paieActivity.get(log) );
+			total += paieActivity.get(log);
 		  }
+		 System.out.println("Paie total: " + total +" $CAD.");
+		
+		 
 	}
 	
 	/*
@@ -72,39 +75,43 @@ public class Report {
 	 * et imprime le rapport dans la console
 	 */
 	public void rapportProject(Project p) {
-		 ArrayList<Activity> projectActivity = p.getActivities() ;
-		 worklogs = parseWorklog(p.getId());
-		 HashMap<String, Double> projectProgress = new HashMap<String, Double>();
-		 
-		 for(Activity a : projectActivity) {
-			 projectProgress.put(a.getName(), getProjectProgress(worklogs,a));
+		 System.out.println("******************************************************************************");
+		 System.out.println("Rapport de projet");
+		 System.out.println("	Projet: " + p.getName());
+		 ArrayList<Long> progress = getProjectHours(parseWorklog(p.getId()),p.getActivities());
+		 System.out.println("	Total des heures travaillées: " + progress.get(0));
+		 if(progress.get(0)==0) {
+			 System.out.println("	Pourcentage d'avancement du projet: 0%");
 		 }
-		 log = projectProgress;
-		 type ="project";
-		 
-		 System.out.println("Rapport du projet: " + p.getName());
-		 for(String log: projectProgress.keySet()) {
-			System.out.println("	Activité:" + log);
-			System.out.println("		Pourcentage d'avancement:" + projectProgress.get(log) );
-		  }
-		}
+		 else {
+			 System.out.println("	Pourcentage d'avancement du projet: " + (progress.get(0)/progress.get(1))+"%");
+		 }
+		 System.out.println("******************************************************************************");
+		 System.out.println();
+	}
 		
 	/*
-	 * crée un hashmap qui contient le pourcentage de progrès fait pour chaque projet  et imprime le rapport dans la console
+	 *  imprime le rapport global dans la console
 	 * */	
 	public void rapportGlobal() {
 		 ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
-		 HashMap<String, Double> globalProgress = new HashMap<String, Double>();
-		 for(Project p : projects) {
-			 globalProgress.put(p.getName(),getGlobalProgress(parseWorklog(p.getId()),p.getActivities()) );
-		 }
-		 log = globalProgress;
-		 type = "global";
 		 System.out.println("Rapport Global");
-		 for(String log: globalProgress.keySet()) {
-			System.out.println("	Projet:" + log);
-			System.out.println("		Pourcentage d'avancement:" + globalProgress.get(log) );
-		  }
+		 for(Project p : projects) {
+			 System.out.println("******************************************************************************");
+			 System.out.println("	Projet: " + p.getName());
+			 ArrayList<Long> progress = getProjectHours(parseWorklog(p.getId()),p.getActivities());
+			 System.out.println("	Total des heures travaillées: " + progress.get(0));
+			 if(progress.get(0)==0) {
+				 System.out.println("	Pourcentage d'avancement du projet: 0%");
+			 }
+			 else {
+				 System.out.println("	Pourcentage d'avancement du projet: " + (progress.get(0)/progress.get(1))+"%");
+			 }
+			 System.out.println("******************************************************************************");
+			 System.out.println();
+			 
+		 }
+	
 		
 		
 	}
@@ -112,9 +119,10 @@ public class Report {
 		 * 	Retourne une liste des Worklog d'un employée qui sont après la date | heure choisi
 		 */
 		private ArrayList<Worklog> parseWorklog(Employee employee, Instant time){
+			ArrayList<Worklog> logs = new ArrayList<Worklog>();
 			for(Worklog log : worklogs) {
-				if(log.getEmployee()!=employee || log.getStart().isBefore(time)) {
-					worklogs.remove(log);
+				if(!(log.getEmployee()!=employee || log.getStart().isBefore(time))) {
+					logs.add(log);
 				}
 			}
 			return worklogs;
@@ -123,13 +131,15 @@ public class Report {
 		 *  Retourne une liste des Worklog d'un projet en fonction de son id
 		 */
 		private ArrayList<Worklog> parseWorklog(String id){
+			ArrayList<Worklog> logs = new ArrayList<Worklog>();
 			for(Worklog log : worklogs) {
 				if(!(log.getProject().getId().equals(id))) {
-					worklogs.remove(log);
+					logs.add(log);
 				}
 			}
-			return worklogs;
+			return logs;
 		}
+		
 	
 	private int getWeekNumber(LocalDate date) {
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
@@ -178,26 +188,39 @@ public class Report {
 	}
 	
 	/*
-	 * Retourne le pourcentage d'avancement pour chaque projet, en comparant la liste d'activité d'un projet au worklog 
+	 *	Log dans la console les heures travaillées et le pourcentage d'avancement pour chaque activité d'un projet en comparant la liste d'activité d'un projet au worklog 
 	 * */
-	private double getGlobalProgress(ArrayList<Worklog> log, ArrayList<Activity> list) {
-		double progress = 0;
+	private ArrayList<Long> getProjectHours(ArrayList<Worklog> log, ArrayList<Activity> list) {
+		ArrayList<Long> total = new ArrayList<Long>();
+		Long setup = (long) 0;
+		total.add(0,setup); //travaillé
+		total.add(1,setup); //budget
 		for(Activity a : list) {
+			System.out.println("		Activité: "+a.getName());
 			for(Worklog l : log) {
 				//Considère le cas ou une activité est terminé
 				if(l.getActivity()==a && l.getEnd().toEpochMilli()!=0) {
-					progress +=1;
+					total.add(0,total.get(0)+a.getBudget());
+					System.out.println("			Heures Travaillées: " +a.getBudget() );
+					System.out.println("			Pourcentage d'avancement: 100%");
 					break;
 				}
 				//Considère le cas ou une activité est en cours
 				else if(l.getActivity()==a && l.getEnd().toEpochMilli()==0 && l.getStart().toEpochMilli()!=0) {
-					progress += Duration.between(Instant.now(),l.getStart()).toHours()/a.getBudget();
+					total.add(0,total.get(0) + Duration.between(Instant.now(),l.getStart()).toHours());
+					System.out.println("			Heures Travaillées: " +Duration.between(Instant.now(),l.getStart()).toHours());
+					System.out.println("			Pourcentage d'avancement: " + (Long)Duration.between(Instant.now(),l.getStart()).toHours()/a.getBudget()+"%");
+					break;
 				}
-				//Dans le cas ou une activité n'est pas commencé on n'ajoute rien à la variable progress
+				
+				
 			}
+			//Dans le cas ou une activité n'est pas commencé 
+			System.out.println("			Heures Travaillées: 0");
+			System.out.println("			Pourcentage d'avancement: 0%");
 		}
 		
-		return (progress / list.size())*100;
+		return total;
 	}
 	private double getProjectProgress(ArrayList<Worklog> log, Activity a) {
 		double progress = 0;
@@ -215,6 +238,11 @@ public class Report {
 			}
 		}
 		return progress * 100;
+	}
+	private double heureTravaille(ArrayList<Project> projects, String id) {
+		double total = 0;
+	
+		return total;
 	}
 
 }
