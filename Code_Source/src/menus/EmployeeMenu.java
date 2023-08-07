@@ -15,7 +15,8 @@ import repositories.WorklogRepository;
  */
 public class EmployeeMenu {
 	private static Employee currentEmployee;
-	/**
+ 
+	/*
 	 * Demande à la console le nom d'usager et le ID de l'employé
 	 * 
 	 * @return booléen indiquant si l'employé s'est connecté avec succès ou non
@@ -42,14 +43,16 @@ public class EmployeeMenu {
 	 * Affiche le menu principal du rôle Employé
 	 */
 	public static void mainMenu() {
-		int selectedOption;
+		//int selectedOption;
 	    System.out.println("| Choisir une action |");
 	    System.out.println("1. Signaler le début d'une activité");
 	    System.out.println("2. Signaler la fin d'une activité");
 	    System.out.println("3. Générer un rapport d'heures travaillées");
 	    System.out.println("4. Déconnexion");
-
-	    selectedOption = Console.inInt("Action:");
+	    
+	    
+	   int selectedOption = Console.inInt("Action:");
+	    
 
 	    // Switch construct
 	    switch (selectedOption) {
@@ -88,4 +91,5 @@ public class EmployeeMenu {
 	    
 	    mainMenu();
 	}
+	
 }

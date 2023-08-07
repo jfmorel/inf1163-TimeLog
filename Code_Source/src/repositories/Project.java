@@ -90,4 +90,11 @@ public class Project {
 		assignedEmployees.clear();
 		assignedEmployees.addAll(set);
 	}
+	
+	/*
+	 * Désassigner un employé d'un projet
+	 * */
+	public void removeEmployee(Employee employee) {
+		assignedEmployees.remove(employee);
+	}
 }

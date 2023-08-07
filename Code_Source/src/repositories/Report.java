@@ -44,7 +44,7 @@ public class Report {
 	
 	/**
 	 * Pour un Employé (id) et un moment (date|heure), retourne le salaire brut de l'employé pour chaque Projets et Activitées complétés 
-	 * entre le moment choisi et le présent (currentTime - time).  
+	 * entre le moment choisi et le présent (currentTime - time). Imprime le rapport dans la console
 	 */
 	public void rapportEmployee(Instant time, Employee employee) {
 		HashMap<String, Double> paieActivity = new HashMap<String, Double>(); 
@@ -60,24 +60,37 @@ public class Report {
 		}
 		log =  paieActivity;
 		type ="employee";
+		 System.out.println("Rapport de l'Employé: " + employee.getUsername());
+		 for(String log: paieActivity.keySet()) {
+			System.out.println("	Activité:" + log);
+			System.out.println("		Paie:" + paieActivity.get(log) );
+		  }
 	}
 	
 	/*
 	 * Pour un projet (p), crée un hashmap qui contient le pourcentage de progrès fait pour chaque activitée du projet p 
+	 * et imprime le rapport dans la console
 	 */
 	public void rapportProject(Project p) {
 		 ArrayList<Activity> projectActivity = p.getActivities() ;
 		 worklogs = parseWorklog(p.getId());
 		 HashMap<String, Double> projectProgress = new HashMap<String, Double>();
+		 
 		 for(Activity a : projectActivity) {
 			 projectProgress.put(a.getName(), getProjectProgress(worklogs,a));
 		 }
 		 log = projectProgress;
 		 type ="project";
+		 
+		 System.out.println("Rapport du projet: " + p.getName());
+		 for(String log: projectProgress.keySet()) {
+			System.out.println("	Activité:" + log);
+			System.out.println("		Pourcentage d'avancement:" + projectProgress.get(log) );
+		  }
 		}
 		
 	/*
-	 * crée un hashmap qui contient le pourcentage de progrès fait pour chaque projet  
+	 * crée un hashmap qui contient le pourcentage de progrès fait pour chaque projet  et imprime le rapport dans la console
 	 * */	
 	public void rapportGlobal() {
 		 ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
@@ -87,6 +100,12 @@ public class Report {
 		 }
 		 log = globalProgress;
 		 type = "global";
+		 System.out.println("Rapport Global");
+		 for(String log: globalProgress.keySet()) {
+			System.out.println("	Projet:" + log);
+			System.out.println("		Pourcentage d'avancement:" + globalProgress.get(log) );
+		  }
+		
 		
 	}
 	   /*

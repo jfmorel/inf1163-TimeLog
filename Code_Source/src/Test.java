@@ -1,19 +1,27 @@
 import org.junit.After;
 import org.junit.Before;
 
-
+import menus.ActivityManagementMenu;
 import menus.AdminMenu;
+import menus.EmployeeMenu;
 import menus.LoginMenu;
+import repositories.Activity;
 import repositories.Admin;
+import repositories.AdminRepository;
 import repositories.Config;
 import repositories.ConfigRepository;
 import repositories.Employee;
 import repositories.EmployeeRate;
+import repositories.EmployeeRepository;
+import repositories.Project;
+import repositories.Worklog;
+import repositories.WorklogRepository;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -62,7 +70,7 @@ public class Test {
 	
 	/*
 	 * Modification du Username et ID d'un employee par l'admin
-	 * */
+	 */
 	@org.junit.Test
 	public void test_ModifierEmployee() {
 		ArrayList<EmployeeRate> list = new ArrayList<>();
@@ -77,13 +85,55 @@ public class Test {
 	}
 	
 	/*
-	 * Modification d'un projet
-	 * */
+	 * Modification d'un projet (Assigner et Désassigner un employé à un projet)
+	 */
 	@org.junit.Test
 	public void test_ModifierProjet() {
-		
+		 ArrayList<Activity> activities = new ArrayList<>();
+		 ArrayList<Employee> employees = new ArrayList<>();
+		Project p = new Project("test","test",activities, employees);
+		ArrayList<EmployeeRate> list = new ArrayList<>();
+		Employee e = new Employee("test","6","7",null,null, list); 
+		//assigner un employee 
+		p.addEmployee(e);
+		assertTrue(p.getAssignedEmployees().contains(e));
+		//desassigner un employee
+		p.removeEmployee(e);
+		assertTrue(!p.getAssignedEmployees().contains(e));
+	}
+	/*
+	 * Signaler début et fin d'activité 
+	 */
+	@org.junit.Test
+	public void test_SignalerDebutFinActivite() {
+		ArrayList<EmployeeRate> list = new ArrayList<>();
+		Employee e = new Employee("test6","643","74",null,null, list); 
+		EmployeeRepository er = mock(EmployeeRepository.class);
+		ArrayList<Activity> activities = new ArrayList<>();
+		Activity a = new Activity("test",14);
+		activities.add(a);
+		ArrayList<Employee> employees = new ArrayList<>();
+		Project p = new Project("test","test",activities, employees);
+		p.addEmployee(e);
+		//Il n'existe pas de Worklog pour cet employé, je pense que canStartActivity devrait retourner True dans ce cas
+    	assertTrue(er.canStartActivity(e)== true);
+    	assertTrue(er.canEndActivity(e) == false);
 	}
 	
-
+	/*
+	 * Possible de Login Admin et Login Employer
+	 * En vérifiant de les répertoires si les combinaisons Username, id sont valides
+	 */
+	
+	@org.junit.Test
+	public void test_ValidateUserLogin() {
+		AdminRepository ar = mock(AdminRepository.class);
+		assertTrue(ar.getInstance().isValid("admin", "0")==true);
+		assertTrue(ar.getInstance().isValid("admin", "1")==false);
+		
+		EmployeeRepository er = mock(EmployeeRepository.class);
+		assertTrue(er.getInstance().isValid("employe1", "1")==true);
+		assertTrue(er.getInstance().isValid("employe1", "5")==false);
+		}
     	
 }

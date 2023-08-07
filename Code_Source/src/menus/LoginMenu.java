@@ -43,8 +43,4 @@ public class LoginMenu {
 	    
 	    mainMenu();
 	}
-	
-	public static void setOption(int i) {
-		selectedOption = i;
-	}
 }

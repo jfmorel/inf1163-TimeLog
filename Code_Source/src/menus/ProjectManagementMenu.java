@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import helpers.Console;
 import repositories.Project;
 import repositories.ProjectRepository;
+import repositories.Report;
 
 public class ProjectManagementMenu {
 	private static Project currentProject;
@@ -52,7 +53,8 @@ public class ProjectManagementMenu {
 
 	    switch (selectedOption) {
 		    case 1:
-		    	System.out.println("Option 1 sélectionnée");
+		    	Report r = new Report(null, null);
+		    	r.rapportProject(currentProject);
 		    	break;
 		    case 2:
 		    	System.out.println("Option 2 sélectionnée");
