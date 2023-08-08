@@ -1,10 +1,16 @@
 package menus;
 
+import java.util.ArrayList;
+
 import helpers.Console;
+import repositories.Activity;
 import repositories.Admin;
 import repositories.AdminRepository;
 import repositories.Config;
 import repositories.ConfigRepository;
+import repositories.Employee;
+import repositories.Project;
+import repositories.ProjectRepository;
 import repositories.Report;
 
 /**
@@ -82,7 +88,8 @@ public class AdminMenu {
 	    System.out.println("3. Générer un rapport global");
 	    System.out.println("4. Gérer un employé");
 	    System.out.println("5. Gérer un projet existant");
-	    System.out.println("6. Déconnexion");
+	    System.out.println("6. Créer un nouveau projet");
+	    System.out.println("7. Déconnexion");
 
 	    selectedOption = Console.inInt("Action:");
 
@@ -107,6 +114,19 @@ public class AdminMenu {
 		    	ProjectManagementMenu.projectListMenu();
 		    	break;
 		    case 6:
+		    	String titre = Console.inString("Entrer le titre du projet: ");
+		    	ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
+		    	String id = Integer.toString(Integer.parseInt(projects.get(projects.size()-1).getId())+1);
+		    	ArrayList<Activity> activities = new ArrayList<Activity>();
+		    	ArrayList<Employee> assignedEmployees = new ArrayList<Employee>();
+		    	Project newProjet = new Project(titre, id, activities, assignedEmployees);
+		    	projects.add(newProjet);
+		    	ProjectRepository.getInstance().writeDataSource();
+		    	System.out.println();
+		    	System.out.println("***Le projet "+ titre+" a été créé avec succès***");
+		    	System.out.println();
+		    	break;
+		    case 7:
 		    	currentAdmin = null;
 		    	LoginMenu.mainMenu();
 		    	break;

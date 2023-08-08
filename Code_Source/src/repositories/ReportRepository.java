@@ -33,13 +33,12 @@ public class ReportRepository extends Repository {
         return INSTANCE;
     }
     public void addRapportoRepository(JSONObject rapport) {
-    	String id = (String) rapport.get("id");
     	JSONObject logs = (JSONObject) rapport.get("logs");	
     	HashMap<String, Double> r = new HashMap<String, Double>();
     	for(Object s : logs.keySet()) {
     		r.put((String)s,(Double) logs.get(s));
     	}
-    	rapports.add(new Report(id,r));   
+    	rapports.add(new Report());   
     }
     /**
   	 * Lit le contenu du fichier JSON contenant la liste des employés et construit les objets.

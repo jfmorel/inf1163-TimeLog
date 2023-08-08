@@ -94,7 +94,7 @@ public class EmployeeManagementMenu {
 	 * 
 	 */
 	public static void requestID() {
-		System.out.println("| Veuillez entre1r la nouvelle valeur de l'ID de l'employé |");
+		System.out.println("| Veuillez entrer la nouvelle valeur de l'ID de l'employé |");
 
 		String id = Console.inString("ID:");
 		currentEmployee.setLoginId(id);

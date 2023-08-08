@@ -60,7 +60,15 @@ public class ProjectManagementMenu {
 		    	System.out.println("Option 2 sélectionnée");
 		    	break;
 		    case 3:
-		    	System.out.println("Option 3 sélectionnée");
+		    	ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
+		    	projects.remove(currentProject);
+		    	ProjectRepository.getInstance().writeDataSource();
+		    	
+				System.out.println();
+				System.out.println("***Le projet (" + currentProject.getName()+") a été supprimé.");
+				System.out.println();
+				
+				AdminMenu.mainMenu();
 		    	break;
 		    case 4:
 		    	currentProject = null;

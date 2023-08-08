@@ -112,7 +112,7 @@ public class EmployeeMenu {
 		            Report r = new Report();
 			        r.rapportEmployee(instant, currentEmployee);
 		        } catch (DateTimeException e) {
-		            System.out.println("Invalid date or time format. Please use the correct format.");
+		            System.out.println("Date invalide");
 		        }
 		       
 		    	break;
