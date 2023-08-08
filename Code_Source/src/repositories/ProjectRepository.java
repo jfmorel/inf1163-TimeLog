@@ -30,6 +30,22 @@ public class ProjectRepository extends Repository {
         
         return INSTANCE;
     }
+    /*
+     * Retourne la liste d'activité pour un projet p
+     * 
+     * @param p Objet Projet
+     * */
+    public ArrayList<Activity> getProjectActivities(Project p){
+    	ArrayList<Activity> list = new ArrayList<>();
+    	for(Project project : projects) {
+    		if(p.equals(project));
+    		list = project.getActivities();
+    		break;
+    	}
+    	
+		return list;
+    	
+    }
     
     /**
 	 * Retourne l'objet Project qui possède l'identifiant passé en paramètre.

@@ -3,12 +3,14 @@ package menus;
 import java.util.ArrayList;
 
 import helpers.Console;
+import repositories.Activity;
 import repositories.Project;
 import repositories.ProjectRepository;
 import repositories.Report;
 
 public class ProjectManagementMenu {
 	private static Project currentProject;
+	private static Activity currentActivity;
 	/**
 	 * Affiche la liste des projet disponibles pour modification ou suppression
 	 */
@@ -57,7 +59,7 @@ public class ProjectManagementMenu {
 		    	r.rapportProject(currentProject);
 		    	break;
 		    case 2:
-		    	System.out.println("Option 2 sélectionnée");
+		    	modifierProject();
 		    	break;
 		    case 3:
 		    	ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
@@ -77,6 +79,53 @@ public class ProjectManagementMenu {
 	    }
 	    
 	    projectActionMenu();
+	}
+	
+	private static void modifierProject() {
+		ArrayList<Activity> list = ProjectRepository.getInstance().getProjectActivities(currentProject);
+		int selectedOption;
+		
+	    System.out.println("| Choisir une activitée |");
+	    for (int i = 0; i < list.size(); i++) {
+	    	System.out.printf("%d. %s%n", i+1, list.get(i).getName());
+	    }
+	    int lastIndex =  list.size() + 1;
+	    System.out.printf("%d. Retour en arrière%n", lastIndex);
+
+	    selectedOption = Console.inInt("Option:");
+	    
+	    if (selectedOption > lastIndex) {
+	    	modifierProject();
+	    } else if (selectedOption == lastIndex) {
+	    	currentProject = null;
+	    	AdminMenu.mainMenu();
+	    } else {
+	    	currentActivity = list.get(selectedOption - 1);
+	    	 System.out.println("| Choisir une activitée |");
+	    	 System.out.println("1: Modifier le titre");
+	    	 System.out.println("2: Modifier le budjet");
+	    	 selectedOption = Console.inInt("Option: ");
+	    	 
+
+	 	    switch (selectedOption) {
+	 		    case 1:
+	 		    	String titre = Console.inString("nouveau titre: ");
+	 		    	currentActivity.setName(titre);
+	 		    	break;
+	 		    case 2:
+	 		    	long budget = (long)Console.inInt("nouveau budget: ");
+	 		    	currentActivity.setBudget(budget);
+	 		    	break;
+	 	    }
+	 	    ProjectRepository.getInstance().writeDataSource();
+	 	    System.out.println();
+	 	    System.out.println("***Modification effectuée***");
+	 	    System.out.println();
+	 	   projectActionMenu();
+	    	
+	    }
+		
+		
 	}
 	
 }
