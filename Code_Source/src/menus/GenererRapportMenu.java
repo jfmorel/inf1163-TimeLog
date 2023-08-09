@@ -30,7 +30,7 @@ class GenererRapportMenu{
 	    	System.out.printf("%d. %s%n", i+1, projects.get(i).getName());
 	    }
 	    selectedOption = Console.inInt("Action:");
-	    currentProject = projects.get(selectedOption);
+	    currentProject = projects.get(selectedOption-1);
     	r.rapportProject(currentProject);
 	}
 	
@@ -70,6 +70,12 @@ class GenererRapportMenu{
 
             // Convert LocalDateTime to Instant with ZoneOffset.UTC
             Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            if(instant.isAfter(Instant.now())) {
+            	System.out.println("*******************");
+            	System.out.println("Date invalide");
+            	System.out.println("*******************");
+            	rapportEmployee();
+            }
             Report r = new Report();
 	        r.rapportEmployee(instant, currentEmployee);
         } catch (DateTimeException e) {

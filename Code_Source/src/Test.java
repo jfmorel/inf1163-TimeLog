@@ -14,6 +14,8 @@ import repositories.Employee;
 import repositories.EmployeeRate;
 import repositories.EmployeeRepository;
 import repositories.Project;
+import repositories.ProjectRepository;
+import repositories.Report;
 import repositories.Worklog;
 import repositories.WorklogRepository;
 
@@ -34,27 +36,17 @@ import org.mockito.Mock;
 
 
 public class Test {
-    private final InputStream systemIn = System.in;
-    private final PrintStream systemOut = System.out;
-    private ByteArrayInputStream testIn;
+	private final PrintStream systemOut = System.out;
     private ByteArrayOutputStream testOut;
 
     @Before
-    public void setUpInputOutput() {
-        // Prepare the test input data for selecting Administrator (option 1)
-        String input = "1\n";
-        testIn = new ByteArrayInputStream(input.getBytes());
-        System.setIn(testIn);
-
-        // Redirect the standard output to capture it
+    public void setUpOutputCapture() {
         testOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(testOut));
     }
 
     @After
-    public void restoreSystemInputOutput() {
-        // Restore the original standard input and output streams
-        System.setIn(systemIn);
+    public void restoreSystemOutput() {
         System.setOut(systemOut);
     }
 
@@ -85,39 +77,43 @@ public class Test {
 	}
 	
 	/*
-	 * Modification d'un projet (Assigner et Désassigner un employé à un projet)
+	 * Modification d'un projet (modification du titre)
 	 */
 	@org.junit.Test
 	public void test_ModifierProjet() {
-		 ArrayList<Activity> activities = new ArrayList<>();
-		 ArrayList<Employee> employees = new ArrayList<>();
-		Project p = new Project("test","test",activities, employees);
-		ArrayList<EmployeeRate> list = new ArrayList<>();
-		Employee e = new Employee("test","6","7",null,null, list); 
-		//assigner un employee 
-		p.addEmployee(e);
-		assertTrue(p.getAssignedEmployees().contains(e));
-		//desassigner un employee
-		p.removeEmployee(e);
-		assertTrue(!p.getAssignedEmployees().contains(e));
+		String titre = "projet1";
+		ArrayList<Project> p1 = ProjectRepository.getInstance().getAll();
+		for(Project pr : p1) {
+			if(pr.getName().equals(titre)) {
+				pr.setName("modifier");	
+				break;
+			}
+		}
+		ProjectRepository.getInstance().writeDataSource();
+		ArrayList<Project> p2 = ProjectRepository.getInstance().getAll();
+		for(Project pr : p2) {
+			if(pr.getName().equals("modifier")) {
+				assertTrue(pr.getName().equals("modifier"));
+				pr.setName(titre);
+				break;
+			}
+		}
+		
+		ProjectRepository.getInstance().writeDataSource();
+	
 	}
 	/*
 	 * Signaler début et fin d'activité 
+	 *
+	 *	En vérifiant que chaques employés (à initialization) peuvent commencer une activité
 	 */
 	@org.junit.Test
 	public void test_SignalerDebutFinActivite() {
-		ArrayList<EmployeeRate> list = new ArrayList<>();
-		Employee e = new Employee("test6","643","74",null,null, list); 
-		EmployeeRepository er = mock(EmployeeRepository.class);
-		ArrayList<Activity> activities = new ArrayList<>();
-		Activity a = new Activity("test",14);
-		activities.add(a);
-		ArrayList<Employee> employees = new ArrayList<>();
-		Project p = new Project("test","test",activities, employees);
-		p.addEmployee(e);
-		//Il n'existe pas de Worklog pour cet employé, je pense que canStartActivity devrait retourner True dans ce cas
-    	//assertTrue(er.canStartActivity(e)== true);
-    	//assertTrue(er.canEndActivity(e) == false);
+		ArrayList<Employee> employees = EmployeeRepository.getInstance().getAll();
+		for(Employee e : employees) {
+			assertTrue(EmployeeRepository.getInstance().canStartActivity(e)== true);
+		}
+    	
 	}
 	
 	/*
@@ -135,5 +131,42 @@ public class Test {
 		assertTrue(er.getInstance().isValid("employe1", "1")==true);
 		assertTrue(er.getInstance().isValid("employe1", "5")==false);
 		}
+	@org.junit.Test
+	public void test_GenererRapportGlobal() {
+		Report r = new Report();
+		r.rapportGlobal();
+		 	System.out.flush();
+		 	String capturedOutput = testOut.toString();
+	        String expectedOutput = "Rapport Global"; 
+	        String[] lines = capturedOutput.split("\r?\n");
+	        String firstLine = lines[0];
+	        assertEquals(expectedOutput, firstLine);
+	}
+	@org.junit.Test
+	public void test_GenererRapportProjet() {
+		ArrayList<Project> p = ProjectRepository.getInstance().getAll();
+		Project p1 = p.get(0);;
+		Report r = new Report();
+		r.rapportProject(p1);
+		 	System.out.flush();
+		 	String capturedOutput = testOut.toString();
+	        String expectedOutput = "Rapport de projet"; 
+	        String[] lines = capturedOutput.split("\r?\n");
+	        String firstLine = lines[1];
+	        assertEquals(expectedOutput, firstLine);
+	}
+	@org.junit.Test
+	public void test_GenererRapportEmployee() {
+		ArrayList<Employee> e = EmployeeRepository.getInstance().getAll();
+		Employee e1 = e.get(0);
+		Report r = new Report();
+		r.rapportEmployee(Instant.now(),e1);
+		 	System.out.flush();
+		 	String capturedOutput = testOut.toString();
+	        String expectedOutput = "Rapport de l'Employé: " + e1.getUsername(); 
+	        String[] lines = capturedOutput.split("\r?\n");
+	        String firstLine = lines[2];
+	        assertEquals(expectedOutput, firstLine);
+	}
     	
 }

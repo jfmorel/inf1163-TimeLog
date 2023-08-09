@@ -54,17 +54,35 @@ public class Report {
 		
 		
 		
-		ArrayList<Worklog> employeeWorklog = parseWorklog(employee, time);
+		ArrayList<Worklog> employeeWorklog = parseWorklogEmployee(employee, time);
+		 System.out.println("******************************************************************************");
+		 System.out.println();
 		 System.out.println("Rapport de l'Employé: " + employee.getUsername());
+		 ArrayList<String> seen = new ArrayList<String>();
 		 for(Worklog w : employeeWorklog) {
-			System.out.println("Projet: " + w.getProject().getName() );
-			System.out.println("	Activité:" + w.getActivity().getName());
-			System.out.println("		Heures travaillées: " + Duration.between(w.getStart(), w.getEnd()).toHours());
-			System.out.println("		Salaire: " + (int)Duration.between(w.getStart(), w.getEnd()).toHours() * getActivityPay(employee,w));
+			 long currentWorklogtime = 0;
+			 String currentWorklog = w.getProject().getName();
+			 if(!seen.contains(currentWorklog)) {
+				 for(Worklog w2 : employeeWorklog) {
+					 if(w2.getProject().getName()==currentWorklog && w2.getId()!=w.getId()) {
+						 currentWorklogtime += Duration.between(w.getStart(), w.getEnd()).toHours();
+					 }
+				 }
+				System.out.println("Projet: " + w.getProject().getName() );
+				System.out.println("	Heures travaillées: " + currentWorklogtime);
+				System.out.println("	Salaire: " + (int)currentWorklogtime * getActivityPay(employee,w)+ "$ CAD");
+			 }
+			 seen.add(currentWorklog);
+			 
+			 
+			
 		  }
-		
+		 System.out.println();
+		 System.out.println("******************************************************************************");
 		 
-	}
+		
+		 }
+	
 	public void talonDePaie(Instant time, Employee employee) {
 		
 			
@@ -75,7 +93,15 @@ public class Report {
 			
 			
 			
-			ArrayList<Worklog> employeeWorklog = parseWorklog(employee, time);
+			ArrayList<Worklog> employeeWorklog = parseWorklogEmployee(employee, time);
+			 if(employeeWorklog.size()==0) {
+				 System.out.println("******************************************");
+				 System.out.println("******************************************");
+				 System.out.println("******** Aucun travail à été fait ********");
+				 System.out.println("******************************************");
+				 System.out.println("******************************************");
+			 }
+			 else {
 			 System.out.println("Rapport de l'Employé: " + employee.getUsername());
 			 double total = 0;
 			 for(Worklog w : employeeWorklog) {
@@ -89,25 +115,27 @@ public class Report {
 			 System.out.println("Pour la période de " + LocalDate.ofInstant(time,ZoneId.systemDefault()) +" à " + LocalDate.now());
 			 System.out.println();
 			 System.out.println("Salaire brut: " + total +"$ CAD");
-			 System.out.println("Salarie net: " + total*0.6 +"$ CAD");
+			 System.out.println("Salaire net: " + total*0.6 +"$ CAD");
 			 System.out.println();
 			 System.out.println("******************************************************************************");
+			 }
 	}
 	/*
 	 * Pour un projet (p), crée un hashmap qui contient le pourcentage de progrès fait pour chaque activitée du projet p 
 	 * et imprime le rapport dans la console
 	 */
 	public void rapportProject(Project p) {
+		
 		 System.out.println("******************************************************************************");
 		 System.out.println("Rapport de projet");
 		 System.out.println("	Projet: " + p.getName());
-		 ArrayList<Long> progress = getProjectHours(parseWorklog(p.getId()),p.getActivities());
-		 System.out.println("	Total des heures travaillées: " + progress.get(0));
-		 if(progress.get(0)==0) {
+		 long [] progress = getProjectHours(parseWorklog(p.getId()),p.getActivities());
+		 System.out.println("	Total des heures travaillées: " + progress[0]);
+		 if(progress[0]==0) {
 			 System.out.println("	Pourcentage d'avancement du projet: 0%");
 		 }
 		 else {
-			 System.out.println("	Pourcentage d'avancement du projet: " + (progress.get(0)/progress.get(1))+"%");
+			 System.out.println("	Pourcentage d'avancement du projet: " + (progress[0]/progress[1])*100+"%");
 		 }
 		 System.out.println("******************************************************************************");
 		 System.out.println();
@@ -118,36 +146,45 @@ public class Report {
 	 * */	
 	public void rapportGlobal() {
 		 ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
+		 if(projects.size()==0) {
+			 System.out.println("******************************************");
+			 System.out.println("******************************************");
+			 System.out.println("******** Aucun travail à été fait ********");
+			 System.out.println("******************************************");
+			 System.out.println("******************************************");
+		 }
+		 else {
+			 
+		
 		 System.out.println("Rapport Global");
 		 for(Project p : projects) {
 			 System.out.println("******************************************************************************");
 			 System.out.println("	Projet: " + p.getName());
-			 ArrayList<Long> progress = getProjectHours(parseWorklog(p.getId()),p.getActivities());
-			 System.out.println("	Total des heures travaillées: " + progress.get(0));
-			 if(progress.get(0)==0) {
+			 long[] progress = getProjectHours(parseWorklog(p.getId()),p.getActivities());
+			 
+			 System.out.println("	Total des heures travaillées: " + progress[0]);
+			 if(progress[0]==0) {
 				 System.out.println("	Pourcentage d'avancement du projet: 0%");
 			 }
 			 else {
-				 System.out.println("	Pourcentage d'avancement du projet: " + (progress.get(0)/progress.get(1))+"%");
+				 System.out.println("	Pourcentage d'avancement du projet: " + (progress[0]/progress[1])*100+"%");
 			 }
 			 System.out.println("******************************************************************************");
 			 System.out.println();
 			 
 		 }
-	
+		 }
 		
 		
 	}
 	   /*
 		 * 	Retourne une liste des Worklog d'un employée qui sont après la date | heure choisi
 		 */
-		private ArrayList<Worklog> parseWorklog(Employee employee, Instant time){
-			ArrayList<Worklog> worklog = WorklogRepository.getInstance().getAll()t;
+		private ArrayList<Worklog> parseWorklogEmployee(Employee employee, Instant time){
 			ArrayList<Worklog> logs = new ArrayList<Worklog>();
-			for(Worklog log : worklog) {
-				if(!(log.getEmployee()!=employee && log.getStart().isBefore(time))) {
+			for(Worklog log : worklogs) {
+				if((log.getEmployee().getId().equals(employee.getId()) && log.getStart().isAfter(time))) {
 					logs.add(log);
-					System.out.println(log.getId());
 				}
 			}
 			return logs;
@@ -159,7 +196,7 @@ public class Report {
 			ArrayList<Worklog> worklog = WorklogRepository.getInstance().getAll();
 			ArrayList<Worklog> logs = new ArrayList<Worklog>();
 			for(Worklog log : worklog) {
-				if(!(log.getProject().getId().equals(id))) {
+				if(log.getProject().getId().equals(id)) {
 					logs.add(log);
 				}
 			}
@@ -216,36 +253,39 @@ public class Report {
 	/*
 	 *	Log dans la console les heures travaillées et le pourcentage d'avancement pour chaque activité d'un projet en comparant la liste d'activité d'un projet au worklog 
 	 * */
-	private ArrayList<Long> getProjectHours(ArrayList<Worklog> log, ArrayList<Activity> list) {
-		ArrayList<Long> total = new ArrayList<Long>();
-		Long setup = (long) 0;
-		total.add(0,setup); //travaillé
-		total.add(1,setup); //budget
+	private long[] getProjectHours(ArrayList<Worklog> log, ArrayList<Activity> list) {
+		long [] total = new long[2];
+		total[0] = 0;
+		total[1] = 0;
+		
 		for(Activity a : list) {
+			boolean isStarted = false;
 			System.out.println("		Activité: "+a.getName());
 			for(Worklog l : log) {
 				//Considère le cas ou une activité est terminé
 				if(l.getActivity()==a && l.getEnd().toEpochMilli()!=0) {
-					total.add(0,total.get(0)+a.getBudget());
+					total[0] += a.getBudget();
 					System.out.println("			Heures Travaillées: " +a.getBudget() );
 					System.out.println("			Pourcentage d'avancement: 100%");
+					isStarted = true;
 					break;
 				}
 				//Considère le cas ou une activité est en cours
 				else if(l.getActivity()==a && l.getEnd().toEpochMilli()==0 && l.getStart().toEpochMilli()!=0) {
-					total.add(0,total.get(0) + Duration.between(Instant.now(),l.getStart()).toHours());
+					total[0] += Duration.between(Instant.now(),l.getStart()).toHours();
 					System.out.println("			Heures Travaillées: " +Duration.between(Instant.now(),l.getStart()).toHours());
 					System.out.println("			Pourcentage d'avancement: " + (Long)Duration.between(Instant.now(),l.getStart()).toHours()/a.getBudget()+"%");
+					isStarted = true;
 					break;
 				}
-				
-				
 			}
-			//Dans le cas ou une activité n'est pas commencé 
-			System.out.println("			Heures Travaillées: 0");
-			System.out.println("			Pourcentage d'avancement: 0%");
-		}
+			if(isStarted==false) {
+				System.out.println("			Heures Travaillées: 0%" );
+				System.out.println("			Pourcentage d'avancement: 0%");
+			}
 		
+			total[1] += a.getBudget();
+		}		
 		return total;
 	}
 	
