@@ -85,7 +85,7 @@ public class AdminMenu {
 	    System.out.println("| Choisir une action |");
 	    System.out.println("1. Modifier NPE");
 	    System.out.println("2. Modifier mon ID");
-	    System.out.println("3. Générer un rapport global");
+	    System.out.println("3. Générer un rapport");
 	    System.out.println("4. Gérer un employé");
 	    System.out.println("5. Gérer un projet existant");
 	    System.out.println("6. Créer un nouveau projet");
@@ -104,8 +104,7 @@ public class AdminMenu {
 		    	requestID();
 		    	break;
 		    case 3:
-		    	Report p = new Report();
-		    	p.rapportGlobal();
+		    	GenererRapportMenu.optionMenu();
 		    	break;
 		    case 4: 
 		    	EmployeeManagementMenu.employeeListMenu();

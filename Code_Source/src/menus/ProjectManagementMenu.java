@@ -46,22 +46,18 @@ public class ProjectManagementMenu {
 	private static void projectActionMenu() {
 		int selectedOption;
 	    System.out.println("| Choisir une action |");
-	    System.out.println("1. Générer un rapport de projet");
-	    System.out.println("2. Modifier le projet");
-	    System.out.println("3. Supprimer le projet");
-	    System.out.println("4. Retour en arrière");
+	    System.out.println("1. Modifier le projet");
+	    System.out.println("2. Supprimer le projet");
+	    System.out.println("3. Retour en arrière");
 
 	    selectedOption = Console.inInt("Action:");
 
 	    switch (selectedOption) {
+		
 		    case 1:
-		    	Report r = new Report();
-		    	r.rapportProject(currentProject);
-		    	break;
-		    case 2:
 		    	modifierProject();
 		    	break;
-		    case 3:
+		    case 2:
 		    	ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
 		    	projects.remove(currentProject);
 		    	ProjectRepository.getInstance().writeDataSource();
@@ -72,7 +68,7 @@ public class ProjectManagementMenu {
 				
 				AdminMenu.mainMenu();
 		    	break;
-		    case 4:
+		    case 3:
 		    	currentProject = null;
 		    	projectListMenu();
 		    	break;

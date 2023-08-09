@@ -56,7 +56,7 @@ public class EmployeeMenu {
 	    System.out.println("| Choisir une action |");
 	    System.out.println("1. Signaler le début d'une activité");
 	    System.out.println("2. Signaler la fin d'une activité");
-	    System.out.println("3. Générer un rapport d'heures travaillées");
+	    System.out.println("3. Générer un talon de paie");
 	    System.out.println("4. Déconnexion");
 	    
 	    
