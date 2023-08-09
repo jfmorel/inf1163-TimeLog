@@ -46,30 +46,53 @@ public class Report {
 	 * entre le moment choisi et le présent (currentTime - time). Imprime le rapport dans la console
 	 */
 	public void rapportEmployee(Instant time, Employee employee) {
-		HashMap<String, Double> paieActivity = new HashMap<String, Double>(); 
+		
 		/*
 		 * Par défaut, le rapportEmployé va considérer les heures travaillé à partir de la dernière semaine impaire
 		 * */
 		time = checkTime(time);
 		
-		worklogs = parseWorklog(employee, time);
-		for(Worklog log : worklogs) {
-			double paie = getActivityPay(employee, log);
-			paieActivity.put(log.getActivity().getName(), paie);
-		}
-	
+		
+		
+		ArrayList<Worklog> employeeWorklog = parseWorklog(employee, time);
 		 System.out.println("Rapport de l'Employé: " + employee.getUsername());
-		 double total = 0;
-		 for(String log: paieActivity.keySet()) {
-			System.out.println("	Activité:" + log);
-			System.out.println("		Paie:" + paieActivity.get(log) );
-			total += paieActivity.get(log);
+		 for(Worklog w : employeeWorklog) {
+			System.out.println("Projet: " + w.getProject().getName() );
+			System.out.println("	Activité:" + w.getActivity().getName());
+			System.out.println("		Heures travaillées: " + Duration.between(w.getStart(), w.getEnd()).toHours());
+			System.out.println("		Salaire: " + (int)Duration.between(w.getStart(), w.getEnd()).toHours() * getActivityPay(employee,w));
 		  }
-		 System.out.println("Paie total: " + total +" $CAD.");
 		
 		 
 	}
-	
+	public void talonDePaie(Instant time, Employee employee) {
+		
+			
+			/*
+			 * Par défaut, le rapportEmployé va considérer les heures travaillé à partir de la dernière semaine impaire
+			 * */
+			time = checkTime(time);
+			
+			
+			
+			ArrayList<Worklog> employeeWorklog = parseWorklog(employee, time);
+			 System.out.println("Rapport de l'Employé: " + employee.getUsername());
+			 double total = 0;
+			 for(Worklog w : employeeWorklog) {
+				
+				 total +=(int)Duration.between(w.getStart(), w.getEnd()).toHours() * getActivityPay(employee,w);
+ 
+		}
+			 System.out.println("******************************************************************************");
+			 System.out.println();
+			 System.out.println("Talon de Paie de: " + employee.getUsername());
+			 System.out.println("Pour la période de " + LocalDate.ofInstant(time,ZoneId.systemDefault()) +" à " + LocalDate.now());
+			 System.out.println();
+			 System.out.println("Salaire brut: " + total +"$ CAD");
+			 System.out.println("Salarie net: " + total*0.6 +"$ CAD");
+			 System.out.println();
+			 System.out.println("******************************************************************************");
+	}
 	/*
 	 * Pour un projet (p), crée un hashmap qui contient le pourcentage de progrès fait pour chaque activitée du projet p 
 	 * et imprime le rapport dans la console
@@ -119,20 +142,23 @@ public class Report {
 		 * 	Retourne une liste des Worklog d'un employée qui sont après la date | heure choisi
 		 */
 		private ArrayList<Worklog> parseWorklog(Employee employee, Instant time){
+			ArrayList<Worklog> worklog = WorklogRepository.getInstance().getAll()t;
 			ArrayList<Worklog> logs = new ArrayList<Worklog>();
-			for(Worklog log : worklogs) {
-				if(!(log.getEmployee()!=employee || log.getStart().isBefore(time))) {
+			for(Worklog log : worklog) {
+				if(!(log.getEmployee()!=employee && log.getStart().isBefore(time))) {
 					logs.add(log);
+					System.out.println(log.getId());
 				}
 			}
-			return worklogs;
+			return logs;
 		}
 		/*
 		 *  Retourne une liste des Worklog d'un projet en fonction de son id
 		 */
 		private ArrayList<Worklog> parseWorklog(String id){
+			ArrayList<Worklog> worklog = WorklogRepository.getInstance().getAll();
 			ArrayList<Worklog> logs = new ArrayList<Worklog>();
-			for(Worklog log : worklogs) {
+			for(Worklog log : worklog) {
 				if(!(log.getProject().getId().equals(id))) {
 					logs.add(log);
 				}
@@ -184,7 +210,7 @@ public class Report {
 			return rate * Duration.between(Instant.now(), log.getStart()).toHours();
 			
 		}
-		return rate * Duration.between(log.getEnd(), log.getStart()).toHours();
+		return rate * Duration.between(log.getStart(),log.getEnd()).toHours();
 	}
 	
 	/*
@@ -222,27 +248,7 @@ public class Report {
 		
 		return total;
 	}
-	private double getProjectProgress(ArrayList<Worklog> log, Activity a) {
-		double progress = 0;
-		for(Worklog l : log) {
-			if(l.getActivity() == a) {
-				if(l.getStart().toEpochMilli()==0) {
-					break;
-				}
-				if(l.getEnd().toEpochMilli()==0) {
-					progress = Duration.between(Instant.now(),l.getStart()).toHours()/a.getBudget();
-				}
-				else {
-					progress = 1;
-				}
-			}
-		}
-		return progress * 100;
-	}
-	private double heureTravaille(ArrayList<Project> projects, String id) {
-		double total = 0;
 	
-		return total;
-	}
+	
 
 }

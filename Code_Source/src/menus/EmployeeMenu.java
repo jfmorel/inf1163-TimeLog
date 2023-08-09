@@ -110,7 +110,7 @@ public class EmployeeMenu {
 		            // Convert LocalDateTime to Instant with ZoneOffset.UTC
 		            Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
 		            Report r = new Report();
-			        r.rapportEmployee(instant, currentEmployee);
+			        r.talonDePaie(instant, currentEmployee);
 		        } catch (DateTimeException e) {
 		            System.out.println("Date invalide");
 		        }
