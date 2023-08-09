@@ -52,8 +52,7 @@ class GenererRapportMenu{
 		    selectedOption = Console.inInt("Action:");
 		    currentEmployee = employee.get(selectedOption - 1);
 		Scanner scanner = new Scanner(System.in);
-
-	       
+  
         System.out.print("Entrer l'année: ");
         String année = scanner.nextLine();
 
@@ -62,6 +61,8 @@ class GenererRapportMenu{
         
         System.out.print("Entrer le jour: ");
         String jour = scanner.nextLine();
+        
+        scanner.close();
       
 
         try {

@@ -3,9 +3,7 @@ package menus;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Scanner;
 
 import helpers.Console;
@@ -37,7 +35,7 @@ public class EmployeeMenu {
 		String id = Console.inString("ID:");
 		
 		if (EmployeeRepository.getInstance().isValid(username, id)) {
-			currentEmployee = EmployeeRepository.getInstance().getById(id);
+			currentEmployee = EmployeeRepository.getInstance().getByLoginId(id);
 			return true;
 		} else {
 			System.out.println();

@@ -1,7 +1,5 @@
 package menus;
 
-import java.io.ByteArrayInputStream;
-
 import helpers.Console;
 
 /**

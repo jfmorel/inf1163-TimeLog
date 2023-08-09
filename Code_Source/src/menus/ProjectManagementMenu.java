@@ -6,7 +6,6 @@ import helpers.Console;
 import repositories.Activity;
 import repositories.Project;
 import repositories.ProjectRepository;
-import repositories.Report;
 
 public class ProjectManagementMenu {
 	private static Project currentProject;
@@ -55,7 +54,7 @@ public class ProjectManagementMenu {
 	    switch (selectedOption) {
 		
 		    case 1:
-		    	modifierProject();
+		    	modifyProject();
 		    	break;
 		    case 2:
 		    	ArrayList<Project> projects = ProjectRepository.getInstance().getAll();
@@ -77,7 +76,7 @@ public class ProjectManagementMenu {
 	    projectActionMenu();
 	}
 	
-	private static void modifierProject() {
+	private static void modifyProject() {
 		ArrayList<Activity> list = ProjectRepository.getInstance().getProjectActivities(currentProject);
 		int selectedOption;
 		
@@ -91,7 +90,7 @@ public class ProjectManagementMenu {
 	    selectedOption = Console.inInt("Option:");
 	    
 	    if (selectedOption > lastIndex) {
-	    	modifierProject();
+	    	modifyProject();
 	    } else if (selectedOption == lastIndex) {
 	    	currentProject = null;
 	    	AdminMenu.mainMenu();

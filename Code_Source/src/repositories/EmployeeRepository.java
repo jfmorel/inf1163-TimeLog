@@ -45,6 +45,17 @@ public class EmployeeRepository extends Repository {
     }
     
     /**
+	 * Retourne l'objet Employee qui possède l'identifiant passé en paramètre.
+	 * 
+	 * @param ID L'identifiant de connexion l'employé.
+	 */
+    public Employee getByLoginId(String loginId)  {         
+    	Predicate<Employee> filter = employee -> loginId.equals(employee.getLoginId());
+    	
+    	return employees.stream().filter(filter).findFirst().orElse(null);
+    }
+    
+    /**
 	 * Retourne tous les employés présentement dans le dépôt de données.
 	 * 
 	 */
@@ -153,7 +164,7 @@ public class EmployeeRepository extends Repository {
 
 			JSONObject employeeObject = new JSONObject();
 			employeeObject.put("username", employee.getUsername());
-			employeeObject.put("id", employee.getId());
+			employeeObject.put("id", employee.getLoginId());
 			employeeObject.put("sin", employee.getSin());
 			employeeObject.put("startDate", employee.getStartDate().atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli() / 1000);
 			employeeObject.put("endDate", employee.getEndDate() == null ? 0 : employee.getEndDate().atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli() / 1000);

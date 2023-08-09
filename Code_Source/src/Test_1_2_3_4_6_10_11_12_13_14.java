@@ -1,27 +1,17 @@
 import org.junit.After;
 import org.junit.Before;
 
-import menus.ActivityManagementMenu;
-import menus.AdminMenu;
-import menus.EmployeeMenu;
-import menus.LoginMenu;
-import repositories.Activity;
 import repositories.Admin;
 import repositories.AdminRepository;
 import repositories.Config;
-import repositories.ConfigRepository;
 import repositories.Employee;
 import repositories.EmployeeRate;
 import repositories.EmployeeRepository;
 import repositories.Project;
 import repositories.ProjectRepository;
 import repositories.Report;
-import repositories.Worklog;
-import repositories.WorklogRepository;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -29,13 +19,8 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-
-import org.mockito.Mock;
-
-
-public class Test {
+public class Test_1_2_3_4_6_10_11_12_13_14 {
 	private final PrintStream systemOut = System.out;
     private ByteArrayOutputStream testOut;
 
@@ -121,6 +106,7 @@ public class Test {
 	 * En vérifiant de les répertoires si les combinaisons Username, id sont valides
 	 */
 	
+	@SuppressWarnings("static-access")
 	@org.junit.Test
 	public void test_ValidateUserLogin() {
 		AdminRepository ar = mock(AdminRepository.class);
