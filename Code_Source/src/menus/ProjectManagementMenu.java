@@ -99,17 +99,17 @@ public class ProjectManagementMenu {
 	    	currentActivity = list.get(selectedOption - 1);
 	    	 System.out.println("| Choisir une activitée |");
 	    	 System.out.println("1: Modifier le titre");
-	    	 System.out.println("2: Modifier le budjet");
+	    	 System.out.println("2: Modifier le budget");
 	    	 selectedOption = Console.inInt("Option: ");
 	    	 
 
 	 	    switch (selectedOption) {
 	 		    case 1:
-	 		    	String titre = Console.inString("nouveau titre: ");
+	 		    	String titre = Console.inString("Nouveau titre: ");
 	 		    	currentActivity.setName(titre);
 	 		    	break;
 	 		    case 2:
-	 		    	long budget = (long)Console.inInt("nouveau budget: ");
+	 		    	long budget = (long)Console.inInt("Nouveau budget: ");
 	 		    	currentActivity.setBudget(budget);
 	 		    	break;
 	 	    }
@@ -120,8 +120,6 @@ public class ProjectManagementMenu {
 	 	   projectActionMenu();
 	    	
 	    }
-		
-		
 	}
 	
 }
